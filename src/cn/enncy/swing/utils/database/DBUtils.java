@@ -1,7 +1,7 @@
 package cn.enncy.swing.utils.database;
 
 
-import cn.enncy.exception.SqlAnnotationNotFoundException;
+import cn.enncy.swing.exception.SqlAnnotationNotFoundException;
 import cn.enncy.swing.utils.PropertiesUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -21,7 +21,7 @@ public class DBUtils {
     private static final String DELETE = "DELETE";
     private static final String SELECT = "SELECT";
 
-    private static PropertiesUtil setting = new PropertiesUtil("src/setting.properties");
+    private static PropertiesUtil setting = new PropertiesUtil(DBUtils.class.getClassLoader().getResource("setting.properties").getPath());
 
     public static Object execute(String sql, ExecuteCallback executeCallBack) {
         Connection connection = null;
@@ -41,14 +41,33 @@ public class DBUtils {
             //执行sql
 
             if (sql.startsWith(INSERT) || sql.startsWith(UPDATE) || sql.startsWith(DELETE)) {
-                int  count = statement.executeUpdate(sql);
+                int count = statement.executeUpdate(sql);
                 return executeCallBack.execute(count);
             } else if (sql.startsWith(SELECT)) {
                 ResultSet resultSet = statement.executeQuery(sql);
                 return executeCallBack.executeQuery(resultSet);
+            } else {
+                boolean count = statement.execute(sql);
+                return executeCallBack.execute(count ? 1 : 0);
             }
             //下面是异常处理
-        } catch (Exception e) {
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            if (e instanceof SQLIntegrityConstraintViolationException) {
+                System.err.println("出现重复的值：" + e.getMessage());
+            } else {
+                e.printStackTrace();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (SqlAnnotationNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {

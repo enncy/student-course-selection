@@ -1,7 +1,8 @@
 package cn.enncy.swing.pojo;
 
 
-import java.math.BigInteger;
+import cn.enncy.swing.utils.database.annotation.Table;
+
 import java.util.UUID;
 
 /**
@@ -10,6 +11,8 @@ import java.util.UUID;
  *
  * @author: enncy
  */
+
+@Table("manager")
 public class Manager {
     private String uid;
     private int id;

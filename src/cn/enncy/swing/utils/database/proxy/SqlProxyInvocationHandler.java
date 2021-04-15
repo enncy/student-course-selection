@@ -1,9 +1,8 @@
 package cn.enncy.swing.utils.database.proxy;
 
 
-import cn.enncy.exception.SqlAnnotationNotFoundException;
-import cn.enncy.exception.TableAnnotationNotFoundException;
-import cn.enncy.swing.pojo.Manager;
+import cn.enncy.swing.exception.SqlAnnotationNotFoundException;
+import cn.enncy.swing.exception.TableAnnotationNotFoundException;
 import cn.enncy.swing.utils.database.DBUtils;
 import cn.enncy.swing.utils.database.ExecuteCallback;
 import cn.enncy.swing.utils.database.ResultSetHandler;
@@ -11,7 +10,6 @@ import cn.enncy.swing.utils.database.SqlStringHandler;
 import cn.enncy.swing.utils.database.annotation.*;
 import org.apache.log4j.Logger;
 
-import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +41,7 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
         //获取类上的 Table 注解
-        if (target.isAnnotationPresent(Table.class)) {
+        if (target.isAnnotationPresent(Mapper.class)) {
             //获取方法注解
             Annotation[] annotations = method.getAnnotations();
             for (Annotation annotation : annotations) {
@@ -61,12 +59,12 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
 
     @Override
     public Object annotationHandler(SqlAnnotation sqlAnnotation, Object[] args) throws TableAnnotationNotFoundException {
-        Table table = (Table) target.getAnnotation(Table.class);
+        Mapper mapper = (Mapper) target.getAnnotation(Mapper.class);
         SQL sql = (SQL) sqlAnnotation.getMethodAnnotation();
         //处理 sql 语句
         String sqlString = handelSqlString(sql.value(), sqlAnnotation.getMethod().getParameters(), args);
         // 处理表名
-        sqlString = SqlStringHandler.replaceTableName(sqlString, table.value());
+        sqlString = SqlStringHandler.replaceTableName(sqlString, mapper.tableName());
         //打印日志
 
         // 执行 sql 语句 并返回值

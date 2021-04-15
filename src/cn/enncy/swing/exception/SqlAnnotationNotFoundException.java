@@ -1,4 +1,4 @@
-package cn.enncy.exception;
+package cn.enncy.swing.exception;
 
 
 /**

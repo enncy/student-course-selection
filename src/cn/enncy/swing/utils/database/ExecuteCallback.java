@@ -1,7 +1,7 @@
 package cn.enncy.swing.utils.database;
 
 
-import cn.enncy.exception.SqlAnnotationNotFoundException;
+import cn.enncy.swing.exception.SqlAnnotationNotFoundException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;

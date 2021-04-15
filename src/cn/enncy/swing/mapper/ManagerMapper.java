@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 
-@Table("manager")
+@Mapper(tableName = "manager")
 public interface ManagerMapper {
 
 

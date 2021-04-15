@@ -1,6 +1,6 @@
 package cn.enncy.swing.utils.database.annotation;
 
-import cn.enncy.exception.TableAnnotationNotFoundException;
+import cn.enncy.swing.exception.TableAnnotationNotFoundException;
 
 /**
  * //TODO

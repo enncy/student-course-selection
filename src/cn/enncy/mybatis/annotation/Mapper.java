@@ -1,5 +1,7 @@
 package cn.enncy.mybatis.annotation;
 
+import cn.enncy.scs.pojo.BaseObject;
+
 import java.lang.annotation.*;
 
 /**
@@ -14,4 +16,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mapper {
     String tableName();
+    Class bean() default BaseObject.class;
 }

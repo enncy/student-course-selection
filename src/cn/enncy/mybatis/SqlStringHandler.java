@@ -40,9 +40,27 @@ public class SqlStringHandler {
         return result;
     }
 
+    /**因为 update 操作由于参数非常多，导致sql语句冗余，所以反射获得对象的属性与值，替换 #{SET_ARRAY}
+     * 例如 #{SET_ARRAY} : name=#{name} ,account=#{account},pwd=#{pwd}
+     * @param sqlString
+     * @param paramsMap
+     * @return: java.lang.String
+     */
+    public static String replaceUpdateFields(String sqlString, Map<String, Object> paramsMap){
+        String result = sqlString;
+        StringBuilder setArray = new StringBuilder();
+        for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
+            if (!"id".equals(entry.getKey())) {
+                setArray.append(" ").append(entry.getKey()).append("=").append(entry.getValue()).append(" ,");
+            }
+        }
+        result = replaceParam(result, SqlConstant.SET_ARRAY, setArray);
+        return result;
+    }
+
     /**
      * 因为 insert 操作由于参数非常多，导致sql语句冗余，所以反射获得对象的属性与值，替换 #{KEY_ARRAY} 和 #{VALUE_ARRAY}
-     *
+     * <br/>例如 (#{KEY_ARRAY}) value(#{VALUE_ARRAY}) :  (name,account,pwd) value(enncy,123456,132456)
      * @param sqlString 注解中的 sql 语句
      * @param paramsMap 参数的键值对集合
      * @return: java.lang.String

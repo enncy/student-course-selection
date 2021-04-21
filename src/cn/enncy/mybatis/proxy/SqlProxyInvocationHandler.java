@@ -5,8 +5,12 @@ import cn.enncy.mybatis.DBUtils;
 import cn.enncy.mybatis.ExecuteCallback;
 import cn.enncy.mybatis.ResultSetHandler;
 import cn.enncy.mybatis.SqlStringHandler;
-import cn.enncy.mybatis.annotation.*;
+import cn.enncy.mybatis.annotation.Body;
+import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.Param;
+import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.mybatis.constant.SqlConstant;
+import cn.enncy.mybatis.pojo.SqlAnnotation;
 import cn.enncy.scs.exception.SqlAnnotationNotFoundException;
 import cn.enncy.scs.exception.TableAnnotationNotFoundException;
 import cn.enncy.scs.pojo.BaseObject;
@@ -30,7 +34,7 @@ import static org.apache.log4j.Logger.getLogger;
  *
  * @author: enncy
  */
-public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationHandler {
+public class SqlProxyInvocationHandler implements InvocationHandler {
 
     public Class target;
     private static final Logger logger = getLogger(SqlProxyInvocationHandler.class);
@@ -41,9 +45,23 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
     }
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return invokeMethod(target, method, args,0);
+    }
 
+    /**
+     * 处理反射
+     * @param target    目标对象
+     * @param method    反射代理的订单
+     * @param args      方法的参数
+     * @param loopIndex 递归深度，超出10则抛出 SqlAnnotationNotFoundException 异常
+     * @return: java.lang.Object
+     */
+    public Object invokeMethod(Class target,Method method, Object[] args,int loopIndex) throws TableAnnotationNotFoundException, SqlAnnotationNotFoundException {
+        if(loopIndex>10){
+            throw new SqlAnnotationNotFoundException("SQL annotation is not found  , please make sure that current class or super class has SQL annotation");
+        }
         //获取类上的 Table 注解
-        if (target.isAnnotationPresent(Mapper.class)) {
+        if (target.isAnnotationPresent(Mapper.class) ) {
             //获取方法注解
             Annotation[] annotations = method.getAnnotations();
             for (Annotation annotation : annotations) {
@@ -52,14 +70,28 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
                     return annotationHandler(sqlAnnotation, args);
                 }
             }
+            //如果在此方法上获取不到 SQL 语句，则遍历获取父类的方法，向上查找 SQL 语句
+            for (Class clazz : target.getInterfaces()) {
+                Method[] methods = clazz.getMethods();
+                for (Method superMethod : methods) {
+                    if(superMethod.getName().equals(method.getName())){
+                        return invokeMethod(target,superMethod,args,loopIndex+1);
+                    }
+                }
+            }
         } else {
-            throw new TableAnnotationNotFoundException("Table annotation is not found");
+            throw new TableAnnotationNotFoundException("Mapper annotation is not found");
         }
-
         return null;
     }
 
-    @Override
+
+    /**
+     * 注解处理
+     * @param sqlAnnotation sql方法的注解
+     * @param args  方法参数
+     * @return: java.lang.Object
+     */
     public Object annotationHandler(SqlAnnotation sqlAnnotation, Object[] args)   {
         Mapper mapper = (Mapper) target.getAnnotation(Mapper.class);
         SQL sql = (SQL) sqlAnnotation.getMethodAnnotation();
@@ -77,7 +109,8 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
                 @Override
                 public Object executeQuery(ResultSet resultSet) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, SqlAnnotationNotFoundException {
                     // 如果 返回值为列表 List 类型
-                    if (sqlAnnotation.getMethod().getReturnType().isInstance(List.class)) {
+                    if ( sqlAnnotation.getMethod().getReturnType().isInstance(List.class)) {
+
                         List<Object> list = new ArrayList<>();
                         while (resultSet.next()) {
                             Object resultTarget = ResultSetHandler.createResultTarget(resultSet, sql.resultType());
@@ -125,6 +158,9 @@ public class SqlProxyInvocationHandler implements InvocationHandler, AnnotationH
                 if(sqlString.toUpperCase().startsWith(SqlConstant.INSERT)){
                     result = SqlStringHandler.replaceInsertFields(sqlString,SqlStringHandler.getObjectsValueMap(args[i],new BaseObject()));
                 }else{
+                    if(sqlString.toUpperCase().startsWith(SqlConstant.UPDATE)){
+                        result = SqlStringHandler.replaceUpdateFields(sqlString, SqlStringHandler.getObjectsValueMap(args[i], new BaseObject()));
+                    }
                     result = SqlStringHandler.replaceParams(sqlString, SqlStringHandler.getObjectsValueMap(args[i],new BaseObject()));
                 }
 

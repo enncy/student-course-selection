@@ -11,6 +11,7 @@ public class SqlConstant {
     public static final String TABLE_NAME = "TABLE_NAME";
     public static final String KEY_ARRAY = "KEY_ARRAY";
     public static final String VALUE_ARRAY = "VALUE_ARRAY";
+    public static final String SET_ARRAY = "SET_ARRAY";
 
     public static final String INSERT = "INSERT";
     public static final String UPDATE = "UPDATE";

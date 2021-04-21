@@ -215,3 +215,9 @@ create table if not exists cancel_selections
 )engine=innoDB default charset=utf8 comment='选课撤销表';
 ```
 
+
+
+## 界面设计
+
+![image-20210421182003737](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210421182003737.png)
+

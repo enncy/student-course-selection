@@ -1,4 +1,4 @@
-package cn.enncy.mybatis.annotation;
+package cn.enncy.mybatis.pojo;
 
 
 import java.lang.annotation.Annotation;
@@ -10,7 +10,7 @@ import java.lang.reflect.Parameter;
  *
  * @author: enncy
  */
-public class ParamAnnotation extends  SqlAnnotation {
+public class ParamAnnotation extends SqlAnnotation {
     private Parameter parameter;
     private Annotation parameterAnnotation;
 

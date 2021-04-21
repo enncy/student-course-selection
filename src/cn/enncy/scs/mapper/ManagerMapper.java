@@ -20,27 +20,28 @@ public interface ManagerMapper extends BaseMapper{
 
 
     @Override
-    @SQL("INSERT IGNORE  INTO #{table_name}(id,name,account,pwd,create_time,update_time) value(null,#{name},#{account},#{pwd},#{create_time},#{update_time});")
-    int insert(@Body() BaseObject manager);
+    @SQL("INSERT IGNORE  INTO #{TABLE_NAME}(#{"+KEY_ARRAY+"}) value(#{"+VALUE_ARRAY+"});")
+    int insert(@Body() BaseObject baseObject);
 
 
     @Override
-    @SQL("UPDATE TABLE #{table_name} SET name=#{name} ,account=#{account},pwd=#{pwd} WHERE id=#{id};")
-    int update(@Body() BaseObject manager);
+    @SQL("UPDATE TABLE #{TABLE_NAME} SET name=#{name} ,account=#{account},pwd=#{pwd} WHERE id=#{id};")
+    int update(@Body() BaseObject baseObject);
 
     @Override
-    @SQL("DELETE FROM #{table_name} WHERE id=#{id}")
+    @SQL("DELETE FROM #{TABLE_NAME} WHERE id=#{id}")
     int deleteById(@Param("id") int id);
 
-    @Override
-    @SQL("SELECT * FROM #{table_name} WHERE id=#{id}")
-    Manager findOneById(@Param("id") int id);
 
-    @SQL("SELECT * FROM #{table_name} WHERE account=#{account}")
+    @Override
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id}")
+    BaseObject findOneById(@Param("id") int id);
+
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE account=#{account}")
     Manager findByAccount(@Param("account") String account);
 
 
-    @SQL(value = "SELECT * FROM #{table_name} WHERE name=#{name}",resultType = Manager.class)
+    @SQL(value = "SELECT * FROM #{TABLE_NAME} WHERE name=#{name}",resultType = Manager.class)
     List<Manager> findByName(@Param("name") String name);
 
 }

@@ -3,6 +3,8 @@ package cn.enncy.scs.view.frame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * //TODO   基础Frame组件
@@ -45,7 +47,14 @@ public class BaseFrame extends JFrame {
     private void init(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+//                System.out.println(e.getX()+" | "+e.getY());
+                super.mouseMoved(e);
+            }
+        });
     }
+
 
 }

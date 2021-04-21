@@ -5,7 +5,6 @@ import cn.enncy.mybatis.annotation.Mapper;
 import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
-import cn.enncy.scs.pojo.Student;
 
 /**
  * //TODO
@@ -19,18 +18,18 @@ import cn.enncy.scs.pojo.Student;
 public interface StudentMapper extends BaseMapper{
 
     @Override
-    @SQL("INSERT IGNORE INTO #{"+TABLE_NAME +"}(#{"+KEY_ARRAY+"}) value(#{"+VALUE_ARRAY+"});")
-    int insert(@Body()BaseObject manager);
+    @SQL("INSERT IGNORE INTO #{TABLE_NAME}(#{"+KEY_ARRAY+"}) value(#{"+VALUE_ARRAY+"});")
+    int insert(@Body()BaseObject baseObject);
 
     @Override
-    @SQL("UPDATE TABLE #{"+TABLE_NAME+"} SET name=#{name} ,pwd=#{pwd},class_id=#{class_id} WHERE id=#{id};")
-    int update(@Body()BaseObject manager);
+    @SQL("UPDATE TABLE #{TABLE_NAME} SET name=#{name} ,pwd=#{pwd},class_id=#{class_id} WHERE id=#{id};")
+    int update(@Body()BaseObject baseObject);
 
     @Override
-    @SQL("DELETE FROM #{"+TABLE_NAME+"} WHERE id=#{id};")
+    @SQL("DELETE FROM #{TABLE_NAME} WHERE id=#{id};")
     int deleteById(@Param("id") int id);
 
     @Override
-    @SQL("SELECT * FROM #{"+TABLE_NAME+"} WHERE id=#{id};")
-    Student findOneById(@Param("id") int id);
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
+    BaseObject findOneById(@Param("id") int id);
 }

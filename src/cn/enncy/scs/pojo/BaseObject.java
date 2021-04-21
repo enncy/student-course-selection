@@ -41,4 +41,14 @@ public class BaseObject {
     public void setUpdate_time(long update_time) {
         this.update_time = update_time;
     }
+
+
+    @Override
+    public String toString() {
+        return "BaseObject{" +
+                "id=" + id +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                '}';
+    }
 }

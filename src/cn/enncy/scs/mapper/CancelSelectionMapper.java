@@ -3,6 +3,7 @@ package cn.enncy.scs.mapper;
 
 import cn.enncy.mybatis.annotation.Mapper;
 import cn.enncy.scs.pojo.BaseObject;
+import cn.enncy.scs.pojo.CancelSelection;
 
 /**
  * //TODO
@@ -15,14 +16,14 @@ import cn.enncy.scs.pojo.BaseObject;
 public interface CancelSelectionMapper extends  BaseMapper{
 
     @Override
-    int insert(BaseObject manager);
+    int insert(BaseObject baseObject);
 
     @Override
-    int update(BaseObject manager);
+    int update(BaseObject baseObject);
 
     @Override
     int deleteById(int id);
 
     @Override
-    Object findOneById(int id);
+    CancelSelection findOneById(int id);
 }

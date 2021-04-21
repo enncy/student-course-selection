@@ -2,6 +2,9 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.Param;
+import cn.enncy.mybatis.annotation.SQL;
+import cn.enncy.scs.pojo.AutoCourseSelection;
 import cn.enncy.scs.pojo.BaseObject;
 
 /**
@@ -14,14 +17,15 @@ import cn.enncy.scs.pojo.BaseObject;
 @Mapper(tableName = "auto_courses_selections")
 public interface AutoCourseSelectionMapper extends BaseMapper{
     @Override
-    int insert(BaseObject manager);
+    int insert(BaseObject baseObject);
 
     @Override
-    int update(BaseObject manager);
+    int update(BaseObject baseObject);
 
     @Override
     int deleteById(int id);
 
     @Override
-    Object findOneById(int id);
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
+    AutoCourseSelection findOneById(@Param("id") int id);
 }

@@ -143,7 +143,7 @@ public class SqlStringHandler {
 
         for (Field f : field) {
             try {
-                if (!f.canAccess(t)) {
+                if (!f.isAccessible()) {
                     f.setAccessible(true);
                 }
                 map.put(f.getName(), f.get(t));

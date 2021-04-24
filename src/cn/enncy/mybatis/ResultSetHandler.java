@@ -24,7 +24,7 @@ public class ResultSetHandler {
         Object target = resultType.getConstructor().newInstance();
         Field[] fields = target.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if(!field.canAccess(target)){
+            if(!field.isAccessible()){
                 field.setAccessible(true);
             }
             field.set(target,resultSet.getObject(field.getName(), field.getType()));

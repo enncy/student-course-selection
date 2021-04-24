@@ -12,17 +12,18 @@ import java.awt.event.MouseMotionAdapter;
  *
  * @author: enncy
  */
-public class BaseFrame extends JFrame {
+public class BaseFrame extends ResizeFrame {
 
     /**
      * @param title              标题
-     * @param width              宽度
-     * @param height             长度
+     * @param minWidth           最小宽度
+     * @param minHeight          最小长度
      * @param locationRelativeTo 相对位置
      */
-    public BaseFrame(String title, int width, int height, Component locationRelativeTo) {
+    public BaseFrame(String title,int minWidth,int minHeight , Component locationRelativeTo) {
+        super(minWidth,minHeight);
         this.setTitle(title);
-        this.setSize(width, height);
+        this.setSize(minWidth,minHeight);
         this.setLocationRelativeTo(locationRelativeTo);
         this.init();
     }
@@ -30,14 +31,15 @@ public class BaseFrame extends JFrame {
     /**
      * 默认居中的基础布局
      * @param title  标题
-     * @param width  宽度
-     * @param height 长度
+     * @param minWidth  宽度
+     * @param minHeight 长度
      */
-    public BaseFrame(String title, int width, int height) {
-        this.setTitle(title);
-        this.setSize(width, height);
-        this.setLocationRelativeTo(null);
-        this.init();
+    public BaseFrame(String title, int minWidth, int minHeight) {
+        this(title,  minWidth, minHeight, null);
+    }
+
+    public BaseFrame( int width, int height) {
+        this("", width, height);
     }
 
     /**
@@ -55,6 +57,8 @@ public class BaseFrame extends JFrame {
             }
         });
     }
+
+
 
 
 }

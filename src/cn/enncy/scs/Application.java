@@ -18,7 +18,6 @@ public class Application {
         //初始化界面
         MainFrame.init();
 
-
     }
 
 }

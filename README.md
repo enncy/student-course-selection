@@ -1,6 +1,11 @@
 # student-course-selection
 scs - student-course-selection 学生选课系统   java + jdbc + swing
 
+项目结构 : 
+- dist 已经打包好的 工具 jar 包
+- maven 依赖
+- src 源码
+
 #  学生选课系统 
 
 `课程信息`包括：课程编号,课程名称,课程性质,学时,理论课学时,实验课学时,学分,开课学期。

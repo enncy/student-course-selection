@@ -15,13 +15,13 @@ import java.awt.*;
  */
 public class TitlePanel extends JPanel {
 
+    public TitlePanel(JFrame jFrame) {
 
-    
-    public TitlePanel(Component component) {
         this.setLayout(new BorderLayout());
-
-        this.setBorder(new EmptyBorder(5,0,0,5));
+        this.setBorder(new EmptyBorder(5,5,0,5));
         this.setBackground(ScsColor.WHITE);
-        this.add(new TitleBarPanel(component),BorderLayout.NORTH);
+        TitleBarPanel titleBarPanel = new TitleBarPanel(jFrame);
+
+        this.add(titleBarPanel,BorderLayout.NORTH);
     }
 }

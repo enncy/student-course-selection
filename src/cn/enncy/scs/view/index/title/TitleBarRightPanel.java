@@ -2,7 +2,6 @@ package cn.enncy.scs.view.index.title;
 
 
 import cn.enncy.scs.view.component.panel.ScsWhitePanel;
-import cn.enncy.scs.view.frame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,18 +16,21 @@ import java.awt.event.MouseEvent;
  */
 public class TitleBarRightPanel extends ScsWhitePanel {
 
-    public TitleBarRightPanel() {
+
+    // jFrame 是需要控制的目标窗口
+    public TitleBarRightPanel(JFrame jFrame) {
+
+        //右对齐
         FlowLayout rightFlowLayout = new FlowLayout(FlowLayout.RIGHT);
         rightFlowLayout.setHgap(10);
         this.setLayout(rightFlowLayout);
-
 
         // 最小化按钮
         TitleButton min = new TitleButton("—");
         min.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MainFrame.frame.setExtendedState(JFrame.ICONIFIED);
+                jFrame.setExtendedState(JFrame.ICONIFIED);
             }
         });
         //最大化
@@ -36,13 +38,7 @@ public class TitleBarRightPanel extends ScsWhitePanel {
         max.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int state =  MainFrame.frame.getExtendedState();
-                if(state==JFrame.MAXIMIZED_BOTH){
-                    MainFrame.frame.setExtendedState(JFrame.NORMAL);
-                }
-                if(state==JFrame.ICONIFIED || state==JFrame.NORMAL){
-                    MainFrame.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                }
+                reSize(jFrame);
             }
         });
         //关闭
@@ -50,15 +46,30 @@ public class TitleBarRightPanel extends ScsWhitePanel {
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                MainFrame.frame.dispose();
+                jFrame.dispose();
                 System.exit(0);
             }
         });
-
-
         this.add(min);
         this.add(max);
         this.add(close);
+    }
+
+    /**
+     * 根据状态进行缩放
+     * @param jFrame    目标窗体
+     * @return: void
+     */
+    public static void reSize(JFrame jFrame){
+        int state =  jFrame.getExtendedState();
+
+        if(state==JFrame.MAXIMIZED_BOTH){
+            //还原最大化之前的尺寸
+            jFrame.setExtendedState(JFrame.NORMAL);
+        }
+        else if(state==JFrame.ICONIFIED || state==JFrame.NORMAL){
+            //最大化
+            jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
     }
 }

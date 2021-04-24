@@ -18,7 +18,7 @@ import java.awt.*;
 public class MainFrame {
 
     private  static Logger log = Logger.getLogger(MainFrame.class);
-    public static JFrame frame = new BaseFrame("学生选课系统",1000,700);
+    public static JFrame frame = new BaseFrame("学生选课系统",500,400);
 
     public static void  init(){
         try {
@@ -35,7 +35,8 @@ public class MainFrame {
 
         frame.setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
-
+        frame.setSize(1000,700);
+        frame.setLocationRelativeTo(null);
         frame.add(new IndexPanel(),BorderLayout.CENTER);
 
         frame.setUndecorated(true);

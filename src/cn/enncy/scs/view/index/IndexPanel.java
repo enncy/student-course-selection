@@ -20,10 +20,6 @@ import java.awt.*;
  */
 public class IndexPanel extends JPanel {
 
-    //边框宽带
-    private static final int BORDER_SIZE = 5;
-
-    private boolean isDragging = false;
 
 
     public IndexPanel(SidePanel sidePanel, CardPanel cardPanel) {

@@ -14,14 +14,18 @@ import java.awt.*;
  * @author: enncy
  */
 public class TitlePanel extends JPanel {
-
+    public  TitleBarPanel titleBarPanel  ;
     public TitlePanel(JFrame jFrame) {
-
+        titleBarPanel=  new TitleBarPanel(jFrame);
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(5,5,0,5));
         this.setBackground(NiceColors.WHITE);
-        TitleBarPanel titleBarPanel = new TitleBarPanel(jFrame);
+
 
         this.add(titleBarPanel,BorderLayout.NORTH);
+    }
+
+    public TitleBarPanel getTitleBarPanel() {
+        return titleBarPanel;
     }
 }

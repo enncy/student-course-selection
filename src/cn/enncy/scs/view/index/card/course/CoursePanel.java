@@ -3,7 +3,7 @@ package cn.enncy.scs.view.index.card.course;
 
 import cn.enncy.scs.view.component.dialog.ScsAlert;
 import cn.enncy.scs.view.component.dialog.ScsDialog;
-import cn.enncy.scs.view.component.panel.ScsWhitePanel;
+import cn.enncy.scs.view.component.panel.ScsGrayPanel;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
  *
  * @author: enncy
  */
-public class CoursePanel extends ScsWhitePanel {
+public class CoursePanel extends ScsGrayPanel {
 
 
     public CoursePanel() {

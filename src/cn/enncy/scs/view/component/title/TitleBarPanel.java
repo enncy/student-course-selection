@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
  * @author: enncy
  */
 public class TitleBarPanel extends JPanel {
-    public static TitleBarLeftPanel titleBarLeftPanel = new TitleBarLeftPanel("");
+    public   TitleBarLeftPanel titleBarLeftPanel = new TitleBarLeftPanel("");
 
     /**
      *
@@ -47,5 +47,8 @@ public class TitleBarPanel extends JPanel {
         });
     }
 
+    public TitleBarLeftPanel getTitleBarLeftPanel() {
+        return titleBarLeftPanel;
+    }
 
 }

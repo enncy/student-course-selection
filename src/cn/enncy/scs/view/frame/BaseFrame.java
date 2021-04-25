@@ -22,10 +22,10 @@ public class BaseFrame extends ResizeFrame {
      * @param minHeight          最小长度
      * @param locationRelativeTo 相对位置
      */
-    public BaseFrame(String title,int minWidth,int minHeight , Component locationRelativeTo) {
+    public BaseFrame(String title,int width, int height,int minWidth,int minHeight , Component locationRelativeTo) {
         super(minWidth,minHeight);
         this.setTitle(title);
-        this.setSize(minWidth,minHeight);
+        this.setSize(width,height);
         this.setLocationRelativeTo(locationRelativeTo);
         this.init();
     }
@@ -36,12 +36,12 @@ public class BaseFrame extends ResizeFrame {
      * @param minWidth  宽度
      * @param minHeight 长度
      */
-    public BaseFrame(String title, int minWidth, int minHeight) {
-        this(title,  minWidth, minHeight, null);
+    public BaseFrame(String title,int width, int height,int minWidth, int minHeight) {
+        this(title,width,height,  minWidth, minHeight, null);
     }
 
-    public BaseFrame( int width, int height) {
-        this("", width, height);
+    public BaseFrame( int width, int height,int minWidth, int minHeight) {
+        this("",width,height,  minWidth, minHeight);
     }
 
     /**

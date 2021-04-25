@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.index.card.setting;
 
 
-import cn.enncy.scs.view.component.panel.ScsWhitePanel;
+import cn.enncy.scs.view.component.panel.ScsGrayPanel;
 
 /**
  * //TODO
@@ -9,7 +9,7 @@ import cn.enncy.scs.view.component.panel.ScsWhitePanel;
  *
  * @author: enncy
  */
-public class SettingPanel  extends ScsWhitePanel {
+public class SettingPanel  extends ScsGrayPanel {
 
 
 }

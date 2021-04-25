@@ -15,8 +15,8 @@ import java.util.Objects;
  * @author: enncy
  */
 public class TitleBarLeftPanel extends ScsWhitePanel {
-    public static JLabel jLabel;
-
+    public  JLabel jLabel;
+    public  String title = "";
 
     public TitleBarLeftPanel(String title) {
         //左对齐
@@ -36,8 +36,14 @@ public class TitleBarLeftPanel extends ScsWhitePanel {
         this.add(jLabel);
     }
 
-    public static void setTitle(String title){
-        jLabel.setText(title);
+    public  void setTitle(String t){
+        title = t;
+        jLabel.setText(t);
+        jLabel.repaint();
+    }
+
+    public  void setTitleInfo(String info){
+        jLabel.setText(title + info);
         jLabel.repaint();
     }
 }

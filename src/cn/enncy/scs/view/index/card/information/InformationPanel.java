@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.index.card.information;
 
 
-import cn.enncy.scs.view.component.panel.ScsWhitePanel;
+import cn.enncy.scs.view.component.panel.ScsGrayPanel;
 
 /**
  * //TODO
@@ -9,7 +9,7 @@ import cn.enncy.scs.view.component.panel.ScsWhitePanel;
  *
  * @author: enncy
  */
-public class InformationPanel  extends ScsWhitePanel {
+public class InformationPanel  extends ScsGrayPanel {
 
 
 }

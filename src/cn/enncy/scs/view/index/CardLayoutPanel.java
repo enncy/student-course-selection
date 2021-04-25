@@ -12,14 +12,17 @@ import java.awt.*;
  *
  * @author: enncy
  */
-public class CardPanel extends JPanel {
+public class CardLayoutPanel extends JPanel {
 
     private CardLayout cardLayout;
+    public static final int PANEL_WIDTH = 1024;
+    public static final int PANEL_HEIGHT = 700;
 
-    public CardPanel() {
+
+    public CardLayoutPanel() {
 
         this.setBackground(new Color(255,255,255));
-
+        this.setSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         cardLayout = new CardLayout();
         this.setLayout(cardLayout);
 

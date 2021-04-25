@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ScsDialog extends BaseFrame {
 
     public ScsDialog() {
-        super(400,300);
+        super(400,300,300,200);
 
         ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("icon/logo.png")).getPath());
         // 设置标题栏的图标为face.gif

@@ -1,13 +1,15 @@
 package cn.enncy.scs.view.index;
 
 
+import cn.enncy.scs.view.component.panel.DropShadowPanel;
+import cn.enncy.scs.view.component.scroll.ScsScrollPanel;
+import cn.enncy.scs.view.component.title.TitlePanel;
 import cn.enncy.scs.view.frame.MainFrame;
 import cn.enncy.scs.view.index.card.course.CoursePanel;
 import cn.enncy.scs.view.index.card.information.InformationPanel;
 import cn.enncy.scs.view.index.card.setting.SettingPanel;
 import cn.enncy.scs.view.index.card.statistics.StatisticsPanel;
 import cn.enncy.scs.view.index.card.teacher.TeacherPanel;
-import cn.enncy.scs.view.component.title.TitlePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,20 +20,22 @@ import java.awt.*;
  *
  * @author: enncy
  */
-public class IndexPanel extends JPanel {
+public class IndexPanel extends DropShadowPanel {
 
-
-
-    public IndexPanel(SidePanel sidePanel, CardPanel cardPanel) {
+    public static final CardLayoutPanel CARD_LAYOUT_PANEL = new CardLayoutPanel();
+    public static TitlePanel titlePanel = new TitlePanel(MainFrame.frame);
+    public IndexPanel(SidePanel sidePanel, CardLayoutPanel cardLayoutPanel) {
+        super(8);
         BorderLayout borderLayout  =new BorderLayout();
         this.setLayout(borderLayout);
         this.add(sidePanel,BorderLayout.WEST);
 
         //卡片布局
         JPanel jPanel = new JPanel(new BorderLayout());
-        TitlePanel titlePanel = new TitlePanel(MainFrame.frame);
+        //设置窗口标题
+        titlePanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle("学生选课系统");
         jPanel.add(titlePanel,BorderLayout.NORTH);
-        jPanel.add(cardPanel,BorderLayout.CENTER);
+        jPanel.add(cardLayoutPanel,BorderLayout.CENTER);
         this.add(jPanel,BorderLayout.CENTER);
 
         CoursePanel coursePanel = new CoursePanel();
@@ -41,24 +45,24 @@ public class IndexPanel extends JPanel {
         TeacherPanel teacherPanel = new TeacherPanel();
 
 
-        cardPanel.add(statisticsPanel, "数据统计");
-        cardPanel.add(informationPanel, "信息管理");
-        cardPanel.add(teacherPanel, "教师管理");
-        cardPanel.add(coursePanel, "课程管理");
-        cardPanel.add(settingPanel, "系统设置");
+        cardLayoutPanel.add(new ScsScrollPanel(statisticsPanel), "数据统计");
+        cardLayoutPanel.add(informationPanel, "信息管理");
+        cardLayoutPanel.add(teacherPanel, "教师管理");
+        cardLayoutPanel.add(coursePanel, "课程管理");
+        cardLayoutPanel.add(settingPanel, "系统设置");
 
 
 
         sidePanel.addSCSLableSelectedListener(scsIconLabel -> {
             System.out.println(scsIconLabel.getText());
-            cardPanel.showCard(scsIconLabel.getText());
+            cardLayoutPanel.showCard(scsIconLabel.getText());
         });
 
 
     }
 
     public IndexPanel() {
-        this(new SidePanel(),new CardPanel());
+        this(new SidePanel(titlePanel.getTitleBarPanel().getTitleBarLeftPanel()),CARD_LAYOUT_PANEL);
     }
 
 

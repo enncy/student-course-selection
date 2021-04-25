@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.index;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ public class CardPanel extends JPanel {
         cardLayout = new CardLayout();
         this.setLayout(cardLayout);
 
-        this.setBackground(ScsColor.GHOST_WHITE);
+        this.setBackground(NiceColors.GHOST_WHITE);
     }
 
     public void showCard(String cardName){

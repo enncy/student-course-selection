@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component.dialog;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 import cn.enncy.scs.view.frame.MainFrame;
 
 import javax.swing.*;
@@ -27,16 +27,16 @@ public class ScsAlert extends JDialog {
 
     public static ScsAlert success(String text){
 
-        return alert(text,ScsColor.LIGHT_GREEN,ScsColor.WHITE_GREEN);
+        return alert(text,NiceColors.LIGHT_GREEN,NiceColors.WHITE_GREEN);
     }
     public static ScsAlert warining(String text){
-        return alert(text,ScsColor.LIGHT_ORANGE,ScsColor.WHITE_ORANGE);
+        return alert(text,NiceColors.LIGHT_ORANGE,NiceColors.WHITE_ORANGE);
     }
     public static ScsAlert info(String text){
-        return alert(text,ScsColor.LIGHT_BLUE,ScsColor.WHITE_BLUE);
+        return alert(text,NiceColors.LIGHT_BLUE,NiceColors.WHITE_BLUE);
     }
     public static ScsAlert error(String text){
-        return alert(text,ScsColor.LIGHT_RED,ScsColor.WHITE_RED);
+        return alert(text,NiceColors.LIGHT_RED,NiceColors.WHITE_RED);
     }
 
 

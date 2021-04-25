@@ -1,4 +1,4 @@
-package cn.enncy.scs.view.index.title;
+package cn.enncy.scs.view.component.title;
 
 
 import cn.enncy.scs.view.component.panel.ScsWhitePanel;

@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,8 +58,8 @@ public class ScsIconLabel extends ScsLabel {
      * @return: void
      */
     public void cancelSelected(Component component){
-        component.setForeground(ScsColor.GRAY);
-        component.setBackground(ScsColor.SIDE_PANEL_COLOR);
+        component.setForeground(NiceColors.GRAY);
+        component.setBackground(NiceColors.SIDE_PANEL_COLOR);
         component.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         setImg(imgUrl);
     }
@@ -90,8 +90,8 @@ public class ScsIconLabel extends ScsLabel {
      * @return: void
      */
     public void hover(Component component){
-        component.setForeground(ScsColor.WHITE);
-        component.setBackground(ScsColor.BLUE);
+        component.setForeground(NiceColors.WHITE);
+        component.setBackground(NiceColors.BLUE);
         component.setCursor(new Cursor(Cursor.HAND_CURSOR));
         setImg(imgUrl.replaceAll("\\.png","_white.png"));
     }

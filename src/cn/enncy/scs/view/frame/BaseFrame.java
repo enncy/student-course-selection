@@ -1,6 +1,8 @@
 package cn.enncy.scs.view.frame;
 
 
+import cn.enncy.scs.view.component.frame.ResizeFrame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

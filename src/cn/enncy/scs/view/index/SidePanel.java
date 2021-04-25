@@ -4,7 +4,7 @@ package cn.enncy.scs.view.index;
 import cn.enncy.scs.view.component.ScsIcon;
 import cn.enncy.scs.view.component.ScsIconLabel;
 import cn.enncy.scs.view.component.ScsLabelSelectedListener;
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class SidePanel  extends JPanel {
 
     public SidePanel() {
 
-        this.setBackground(ScsColor.SIDE_PANEL_COLOR);
+        this.setBackground(NiceColors.SIDE_PANEL_COLOR);
         this.setPreferredSize(new Dimension(SIDE_WIDTH,0));
 
         this.setLayout(new FlowLayout());

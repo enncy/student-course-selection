@@ -9,7 +9,7 @@ import java.awt.*;
  *
  * @author: enncy
  */
-public class ScsColor {
+public class NiceColors {
 
     //黑白色
     public final static Color SIDE_PANEL_COLOR = new Color(0,21,41);

@@ -7,7 +7,7 @@ import cn.enncy.scs.view.index.card.information.InformationPanel;
 import cn.enncy.scs.view.index.card.setting.SettingPanel;
 import cn.enncy.scs.view.index.card.statistics.StatisticsPanel;
 import cn.enncy.scs.view.index.card.teacher.TeacherPanel;
-import cn.enncy.scs.view.index.title.TitlePanel;
+import cn.enncy.scs.view.component.title.TitlePanel;
 
 import javax.swing.*;
 import java.awt.*;

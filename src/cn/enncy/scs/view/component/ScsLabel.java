@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,7 +22,7 @@ public class ScsLabel extends JLabel {
 
     private int fontSize = 14;
     private int borderSize = 10;
-    private Color backgroundColor = ScsColor.SIDE_PANEL_COLOR;
+    private Color backgroundColor = NiceColors.SIDE_PANEL_COLOR;
 
     public ScsLabel(){  }
 
@@ -41,7 +41,7 @@ public class ScsLabel extends JLabel {
         });
 
         this.setPreferredSize(new Dimension(w, lineHeight));
-        this.setForeground(ScsColor.GRAY);
+        this.setForeground(NiceColors.GRAY);
         this.setBackground(backgroundColor);
         this.setOpaque(true);
 

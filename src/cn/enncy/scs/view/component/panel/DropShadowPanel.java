@@ -1,4 +1,4 @@
-package cn.enncy.scs.view.component.dialog;
+package cn.enncy.scs.view.component.panel;
 
 
 import javax.swing.*;

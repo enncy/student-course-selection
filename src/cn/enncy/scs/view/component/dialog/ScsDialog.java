@@ -1,8 +1,9 @@
 package cn.enncy.scs.view.component.dialog;
 
 
+import cn.enncy.scs.view.component.panel.DropShadowPanel;
 import cn.enncy.scs.view.frame.BaseFrame;
-import cn.enncy.scs.view.index.title.TitlePanel;
+import cn.enncy.scs.view.component.title.TitlePanel;
 
 import javax.swing.*;
 import java.awt.*;

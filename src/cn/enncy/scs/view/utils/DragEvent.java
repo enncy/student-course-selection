@@ -1,4 +1,4 @@
-package cn.enncy.scs.view.utils.event.drag;
+package cn.enncy.scs.view.utils;
 
 
 import javax.swing.*;

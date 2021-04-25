@@ -1,4 +1,4 @@
-package cn.enncy.scs.view.frame;
+package cn.enncy.scs.view.component.frame;
 
 
 import javax.swing.*;

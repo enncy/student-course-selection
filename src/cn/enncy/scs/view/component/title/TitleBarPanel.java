@@ -1,7 +1,7 @@
-package cn.enncy.scs.view.index.title;
+package cn.enncy.scs.view.component.title;
 
 
-import cn.enncy.scs.view.utils.event.drag.DragEvent;
+import cn.enncy.scs.view.utils.DragEvent;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component.panel;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,11 +15,11 @@ import java.awt.*;
 public class ScsPanel extends JPanel {
 
     public ScsPanel() {
-        this.setBackground(ScsColor.GHOST_WHITE);
+        this.setBackground(NiceColors.GHOST_WHITE);
     }
 
     public ScsPanel(LayoutManager layout) {
         super(layout);
-        this.setBackground(ScsColor.GHOST_WHITE);
+        this.setBackground(NiceColors.GHOST_WHITE);
     }
 }

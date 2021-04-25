@@ -1,7 +1,7 @@
-package cn.enncy.scs.view.index.title;
+package cn.enncy.scs.view.component.title;
 
 
-import cn.enncy.scs.view.constant.color.ScsColor;
+import cn.enncy.scs.view.constant.color.NiceColors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +19,7 @@ public class TitlePanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(5,5,0,5));
-        this.setBackground(ScsColor.WHITE);
+        this.setBackground(NiceColors.WHITE);
         TitleBarPanel titleBarPanel = new TitleBarPanel(jFrame);
 
         this.add(titleBarPanel,BorderLayout.NORTH);

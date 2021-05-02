@@ -26,6 +26,9 @@ public class ResizeFrame extends JFrame {
     private     int min_width = 500;// 窗口最小宽度
     private     int min_height = 400;// 窗口最小高度
 
+    //是否可縮放
+    private boolean canResize = true;
+
     public ResizeFrame(int min_width,int min_height) {
         this.min_height = min_height;
         this.min_width = min_width;
@@ -71,7 +74,9 @@ public class ResizeFrame extends JFrame {
                     cursorType = Cursor.E_RESIZE_CURSOR;
                 }
                 // 最后改变鼠标光标
-                c.setCursor(new Cursor(cursorType));
+                if(canResize){
+                    c.setCursor(new Cursor(cursorType));
+                }
             }
 
             @Override
@@ -113,7 +118,9 @@ public class ResizeFrame extends JFrame {
                     }
                 }
                 // 最后统一改变窗口的x、y坐标和宽度、高度，可以防止刷新频繁出现的屏闪情况
-                setBounds(nextX, nextY, nextWidth, nextHeight);
+                if(canResize){
+                    setBounds(nextX, nextY, nextWidth, nextHeight);
+                }
             }
         });
     }
@@ -142,5 +149,13 @@ public class ResizeFrame extends JFrame {
         });
         frame.setUndecorated(true);
         frame.setVisible(true);
+    }
+
+    public boolean isCanResize() {
+        return canResize;
+    }
+
+    public void setCanResize(boolean canResize) {
+        this.canResize = canResize;
     }
 }

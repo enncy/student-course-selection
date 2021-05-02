@@ -2,8 +2,12 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.Setting;
+import cn.enncy.scs.view.constant.ScsTableName;
+
+import java.util.List;
 
 /**
  * //TODO
@@ -13,17 +17,9 @@ import cn.enncy.scs.pojo.Setting;
  */
 
 
-@Mapper(tableName = "settings")
+@Mapper(tableName = ScsTableName.SETTINGS,resultType = Setting.class)
 public interface SettingMapper extends BaseMapper{
     @Override
-    int insert(BaseObject baseObject);
-
-    @Override
-    int update(BaseObject baseObject);
-
-    @Override
-    int deleteById(int id);
-
-    @Override
-    Setting findOneById(int id);
+    @SQL( "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
 }

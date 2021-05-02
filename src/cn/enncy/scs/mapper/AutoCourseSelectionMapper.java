@@ -2,10 +2,11 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
-import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
-import cn.enncy.scs.pojo.AutoCourseSelection;
 import cn.enncy.scs.pojo.BaseObject;
+import cn.enncy.scs.view.constant.ScsTableName;
+
+import java.util.List;
 
 /**
  * //TODO
@@ -14,18 +15,9 @@ import cn.enncy.scs.pojo.BaseObject;
  * @author: enncy
  */
 
-@Mapper(tableName = "auto_courses_selections")
+@Mapper(tableName = ScsTableName.AUTO_COURSES_SELECTIONS,resultType = AutoCourseSelectionMapper.class)
 public interface AutoCourseSelectionMapper extends BaseMapper{
     @Override
-    int insert(BaseObject baseObject);
-
-    @Override
-    int update(BaseObject baseObject);
-
-    @Override
-    int deleteById(int id);
-
-    @Override
-    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
-    AutoCourseSelection findOneById(@Param("id") int id);
+    @SQL( "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
 }

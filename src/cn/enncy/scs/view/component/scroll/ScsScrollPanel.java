@@ -15,9 +15,10 @@ import java.awt.*;
 public class ScsScrollPanel extends  JScrollPane{
 
     public ScsScrollPanel(Component view) {
-        super(view,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        this.setPreferredSize(new Dimension(CardLayoutPanel.PANEL_WIDTH,CardLayoutPanel.PANEL_HEIGHT));
+        super(view,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.setPreferredSize(new Dimension(CardLayoutPanel.PANEL_WIDTH ,CardLayoutPanel.PANEL_HEIGHT));
         this.getVerticalScrollBar().setUnitIncrement(20);
+        this.getHorizontalScrollBar().setUnitIncrement(20);
     }
 
 }

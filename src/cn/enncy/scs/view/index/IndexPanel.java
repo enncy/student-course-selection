@@ -4,12 +4,12 @@ package cn.enncy.scs.view.index;
 import cn.enncy.scs.view.component.panel.DropShadowPanel;
 import cn.enncy.scs.view.component.scroll.ScsScrollPanel;
 import cn.enncy.scs.view.component.title.TitlePanel;
+import cn.enncy.scs.view.frame.LoginFrame;
 import cn.enncy.scs.view.frame.MainFrame;
-import cn.enncy.scs.view.index.card.course.CoursePanel;
+import cn.enncy.scs.view.index.card.courses.CoursePanel;
 import cn.enncy.scs.view.index.card.information.InformationPanel;
-import cn.enncy.scs.view.index.card.setting.SettingPanel;
+import cn.enncy.scs.view.index.card.personal.PersonalPanel;
 import cn.enncy.scs.view.index.card.statistics.StatisticsPanel;
-import cn.enncy.scs.view.index.card.teacher.TeacherPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,24 +32,27 @@ public class IndexPanel extends DropShadowPanel {
 
         //卡片布局
         JPanel jPanel = new JPanel(new BorderLayout());
+
         //设置窗口标题
         titlePanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle("学生选课系统");
-        jPanel.add(titlePanel,BorderLayout.NORTH);
-        jPanel.add(cardLayoutPanel,BorderLayout.CENTER);
+        titlePanel.getContainer().add(cardLayoutPanel,BorderLayout.CENTER);
+        jPanel.add(titlePanel,BorderLayout.CENTER);
+
         this.add(jPanel,BorderLayout.CENTER);
 
-        CoursePanel coursePanel = new CoursePanel();
-        InformationPanel informationPanel = new InformationPanel();
-        SettingPanel settingPanel = new SettingPanel();
+
+
         StatisticsPanel statisticsPanel = new StatisticsPanel();
-        TeacherPanel teacherPanel = new TeacherPanel();
+        PersonalPanel personalPanel = new PersonalPanel();
+        CoursePanel coursePanel = new CoursePanel();
 
-
+        if(LoginFrame.isManager){
+            InformationPanel informationPanel = new InformationPanel();
+            cardLayoutPanel.add(informationPanel, "信息管理");
+        }
         cardLayoutPanel.add(new ScsScrollPanel(statisticsPanel), "数据统计");
-        cardLayoutPanel.add(informationPanel, "信息管理");
-        cardLayoutPanel.add(teacherPanel, "教师管理");
-        cardLayoutPanel.add(coursePanel, "课程管理");
-        cardLayoutPanel.add(settingPanel, "系统设置");
+        cardLayoutPanel.add(personalPanel, "个人信息");
+        cardLayoutPanel.add(coursePanel, "选课管理");
 
 
 

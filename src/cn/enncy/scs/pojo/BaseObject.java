@@ -9,9 +9,13 @@ package cn.enncy.scs.pojo;
  */
 public class BaseObject {
 
-    protected int id;
-    protected long create_time;
-    protected long update_time;
+
+    public int id;
+
+    @Info("创建时间")
+    public long create_time;
+    @Info("更新时间")
+    public long update_time;
 
     public BaseObject() {
         this.create_time = System.currentTimeMillis();

@@ -2,8 +2,12 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.OptionalCourse;
+import cn.enncy.scs.view.constant.ScsTableName;
+
+import java.util.List;
 
 /**
  * //TODO
@@ -12,17 +16,9 @@ import cn.enncy.scs.pojo.OptionalCourse;
  * @author: enncy
  */
 
-@Mapper(tableName = "optional_courses")
+@Mapper(tableName = ScsTableName.OPTIONAL_COURSES,resultType = OptionalCourse.class)
 public interface OptionalCourseMapper extends BaseMapper{
     @Override
-    int insert(BaseObject baseObject);
-
-    @Override
-    int update(BaseObject baseObject);
-
-    @Override
-    int deleteById(int id);
-
-    @Override
-    OptionalCourse findOneById(int id);
+    @SQL( "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
 }

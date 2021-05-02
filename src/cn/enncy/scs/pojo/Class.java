@@ -9,8 +9,13 @@ package cn.enncy.scs.pojo;
  */
 public class Class extends BaseObject {
 
-    String name;
-    int major_id;
+    @Info("班级名")
+    private String name;
+
+    @Info("专业id")
+    private int major_id;
+
+    public Class() {}
 
     public Class(String name, int major_id) {
         this.name = name;

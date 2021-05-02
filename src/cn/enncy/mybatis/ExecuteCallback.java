@@ -17,7 +17,7 @@ public interface ExecuteCallback {
     default Object executeQuery(ResultSet resultSet) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, SqlAnnotationNotFoundException {
         return null;
     }
-    default int execute(int count) {
+    default int execute(int count) throws SQLException {
         return 0;
     }
 }

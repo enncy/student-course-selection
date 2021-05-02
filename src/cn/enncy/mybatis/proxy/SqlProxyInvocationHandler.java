@@ -43,25 +43,27 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
         this.target = target;
 
     }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return invokeMethod(target, method, args,0);
+        return invokeMethod(target, method, args, 0);
     }
 
     /**
      * 处理反射
+     *
      * @param target    目标对象
      * @param method    反射代理的订单
      * @param args      方法的参数
      * @param loopIndex 递归深度，超出10则抛出 SqlAnnotationNotFoundException 异常
      * @return: java.lang.Object
      */
-    public Object invokeMethod(Class target,Method method, Object[] args,int loopIndex) throws TableAnnotationNotFoundException, SqlAnnotationNotFoundException {
-        if(loopIndex>10){
+    public Object invokeMethod(Class target, Method method, Object[] args, int loopIndex) throws TableAnnotationNotFoundException, SqlAnnotationNotFoundException {
+        if (loopIndex > 10) {
             throw new SqlAnnotationNotFoundException("SQL annotation is not found  , please make sure that current class or super class has SQL annotation");
         }
         //获取类上的 Table 注解
-        if (target.isAnnotationPresent(Mapper.class) ) {
+        if (target.isAnnotationPresent(Mapper.class)) {
             //获取方法注解
             Annotation[] annotations = method.getAnnotations();
             for (Annotation annotation : annotations) {
@@ -74,8 +76,8 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
             for (Class clazz : target.getInterfaces()) {
                 Method[] methods = clazz.getMethods();
                 for (Method superMethod : methods) {
-                    if(superMethod.getName().equals(method.getName())){
-                        return invokeMethod(target,superMethod,args,loopIndex+1);
+                    if (superMethod.getName().equals(method.getName())) {
+                        return invokeMethod(target, superMethod, args, loopIndex + 1);
                     }
                 }
             }
@@ -88,16 +90,16 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
 
     /**
      * 注解处理
+     *
      * @param sqlAnnotation sql方法的注解
-     * @param args  方法参数
+     * @param args          方法参数
      * @return: java.lang.Object
      */
-    public Object annotationHandler(SqlAnnotation sqlAnnotation, Object[] args)   {
+    public Object annotationHandler(SqlAnnotation sqlAnnotation, Object[] args) throws SqlAnnotationNotFoundException {
         Mapper mapper = (Mapper) target.getAnnotation(Mapper.class);
         SQL sql = (SQL) sqlAnnotation.getMethodAnnotation();
         //处理 sql 语句
         String sqlString = handelSqlString(sql.value(), sqlAnnotation.getMethod().getParameters(), args);
-
 
         // 执行 sql 语句 并返回值
         Object result = null;
@@ -108,25 +110,36 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
             result = DBUtils.execute(sqlString, new ExecuteCallback() {
                 @Override
                 public Object executeQuery(ResultSet resultSet) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, SqlAnnotationNotFoundException {
+
+                    // 目标转换类型根据 resultType 字段 sql 注解的优先级最高，其次 到mapper 的注解
+                    Class<?> targetType = sql.resultType();
+                    if(sql.resultType()==BaseObject.class){
+                        //如果 mapper 不是默认值，则 targetType 为 mapper 的 resultType
+                        if(mapper.resultType()!=BaseObject.class){
+                            targetType = mapper.resultType();
+                        }
+                    }
                     // 如果 返回值为列表 List 类型
-                    if ( sqlAnnotation.getMethod().getReturnType().isInstance(List.class)) {
+                    Class<?> returnType = sqlAnnotation.getMethod().getReturnType();
+                    if (returnType.isInstance(List.class) || returnType.equals(List.class)) {
 
                         List<Object> list = new ArrayList<>();
                         while (resultSet.next()) {
-                            Object resultTarget = ResultSetHandler.createResultTarget(resultSet, sql.resultType());
+                            Object resultTarget = ResultSetHandler.createResultTarget(resultSet, targetType);
                             list.add(resultTarget);
                         }
                         resultSet.close();
                         return list;
                     } else {
                         Object resultTarget = null;
-                        if(resultSet.next()){
-                            resultTarget = ResultSetHandler.createResultTarget(resultSet, sqlAnnotation.getMethod().getReturnType());
+                        if (resultSet.next()) {
+                            resultTarget = ResultSetHandler.createResultTarget(resultSet,targetType);
                         }
                         resultSet.close();
                         return resultTarget;
                     }
                 }
+
                 @Override
                 public int execute(int count) {
                     return count;
@@ -136,7 +149,7 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
             logger.error("[SQL] : " + sqlString);
             e.printStackTrace();
         }
-        logger.info("[SQL] : " + sqlString + "[RESULT]:"+result);
+        logger.info("[SQL] : " + sqlString + "[RESULT]:" + result);
         return result;
 
     }
@@ -149,19 +162,22 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
      * @param args       代理对象的参数
      * @return: java.lang.String
      */
-    private String handelSqlString(String sqlString, Parameter[] parameters, Object[] args) {
-        String result = "";
+    private String handelSqlString(String sqlString, Parameter[] parameters, Object[] args) throws SqlAnnotationNotFoundException {
+        String result = sqlString;
         for (int i = 0; i < parameters.length; i++) {
             // 通过 Body注解  处理
             if (parameters[i].isAnnotationPresent(Body.class)) {
                 //如果是插入操作，则解析参数
-                if(sqlString.toUpperCase().startsWith(SqlConstant.INSERT)){
-                    result = SqlStringHandler.replaceInsertFields(sqlString,SqlStringHandler.getObjectsValueMap(args[i],new BaseObject()));
-                }else{
-                    if(sqlString.toUpperCase().startsWith(SqlConstant.UPDATE)){
-                        result = SqlStringHandler.replaceUpdateFields(sqlString, SqlStringHandler.getObjectsValueMap(args[i], new BaseObject()));
+                if (sqlString.toUpperCase().startsWith(SqlConstant.INSERT)) {
+                    result = SqlStringHandler.replaceInsertFields(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                } else {
+                    if (sqlString.toUpperCase().startsWith(SqlConstant.UPDATE)) {
+                        result = SqlStringHandler.replaceUpdateFields(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                        result = SqlStringHandler.replaceParams(result, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                    }else{
+                        result = SqlStringHandler.replaceParams(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
                     }
-                    result = SqlStringHandler.replaceParams(sqlString, SqlStringHandler.getObjectsValueMap(args[i],new BaseObject()));
+
                 }
 
             }
@@ -169,6 +185,10 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
             else if (parameters[i].isAnnotationPresent(Param.class)) {
                 Param param = parameters[i].getAnnotation(Param.class);
                 result = SqlStringHandler.replaceParam(sqlString, param.value(), String.valueOf(args[i]));
+            }
+            //如果参数都没有以上的注解，则抛出异常
+            else {
+                throw new SqlAnnotationNotFoundException("The method's parameters  is not match  those annotation:(Body|Param)");
             }
         }
 

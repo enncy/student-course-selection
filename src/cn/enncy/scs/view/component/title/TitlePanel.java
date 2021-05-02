@@ -1,10 +1,9 @@
 package cn.enncy.scs.view.component.title;
 
 
-import cn.enncy.scs.view.constant.color.NiceColors;
+import cn.enncy.scs.view.component.panel.ScsWhitePanel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
@@ -13,19 +12,25 @@ import java.awt.*;
  *
  * @author: enncy
  */
-public class TitlePanel extends JPanel {
+public class TitlePanel extends ScsWhitePanel {
     public  TitleBarPanel titleBarPanel  ;
+    private final JPanel container;
     public TitlePanel(JFrame jFrame) {
         titleBarPanel=  new TitleBarPanel(jFrame);
+        container = new JPanel( new BorderLayout());
         this.setLayout(new BorderLayout());
-        this.setBorder(new EmptyBorder(5,5,0,5));
-        this.setBackground(NiceColors.WHITE);
-
 
         this.add(titleBarPanel,BorderLayout.NORTH);
+        this.add(container,BorderLayout.CENTER);
+
     }
 
     public TitleBarPanel getTitleBarPanel() {
         return titleBarPanel;
+    }
+
+
+    public JPanel getContainer() {
+        return container;
     }
 }

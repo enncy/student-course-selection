@@ -2,12 +2,10 @@ package cn.enncy.scs.view.component.dialog;
 
 
 import cn.enncy.scs.view.component.panel.DropShadowPanel;
-import cn.enncy.scs.view.frame.BaseFrame;
 import cn.enncy.scs.view.component.title.TitlePanel;
+import cn.enncy.scs.view.frame.BaseFrame;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * //TODO
@@ -16,25 +14,27 @@ import java.util.Objects;
  * @author: enncy
  */
 public class ScsDialog extends BaseFrame {
+    private TitlePanel titlePanel = new TitlePanel(this);
+    public ScsDialog(String title) {
+        super(400,300,400,300);
 
-    public ScsDialog() {
-        super(400,300,300,200);
 
-        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("icon/logo.png")).getPath());
-        // 设置标题栏的图标为face.gif
-        this.setIconImage(imageIcon.getImage());
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
 
         DropShadowPanel dropShadowPanel = new DropShadowPanel(8);
-        TitlePanel titlePanel = new TitlePanel(this);
 
+        titlePanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle(title);
         dropShadowPanel.add(titlePanel);
         this.add(dropShadowPanel);
         this.setUndecorated(true);
         this.setBackground(new Color(0,0,0,0));
+
         this.setVisible(true);
 
+    }
 
+    public TitlePanel getTitlePanel() {
+        return titlePanel;
     }
 }

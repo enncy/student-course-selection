@@ -5,7 +5,8 @@ import cn.enncy.scs.view.component.ScsIcon;
 import cn.enncy.scs.view.component.ScsIconLabel;
 import cn.enncy.scs.view.component.ScsLabelSelectedListener;
 import cn.enncy.scs.view.component.title.TitleBarLeftPanel;
-import cn.enncy.scs.view.constant.color.NiceColors;
+import cn.enncy.scs.view.constant.NiceColors;
+import cn.enncy.scs.view.frame.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,18 +38,25 @@ public class SidePanel extends JPanel {
         this.add(new ScsIcon("icon/logo.png", 64, 48));
         ScsIconLabel statistics = new ScsIconLabel("数据统计", "icon/side/statistics.png", SIDE_WIDTH);
         ScsIconLabel information = new ScsIconLabel("信息管理", "icon/side/information.png", SIDE_WIDTH);
-        ScsIconLabel person_add = new ScsIconLabel("教师管理", "icon/side/person_add.png", SIDE_WIDTH);
-        ScsIconLabel course = new ScsIconLabel("课程管理", "icon/side/course.png", SIDE_WIDTH);
-        ScsIconLabel setting = new ScsIconLabel("系统设置", "icon/side/setting.png", SIDE_WIDTH);
+        ScsIconLabel personal = new ScsIconLabel("个人信息", "icon/side/personal.png", SIDE_WIDTH);
+        ScsIconLabel course = new ScsIconLabel("选课管理", "icon/side/course.png", SIDE_WIDTH);
+//        ScsIconLabel setting = new ScsIconLabel("系统设置", "icon/side/setting.png", SIDE_WIDTH);
 
         //默认选中
         statistics.selected();
         statistics.hover();
         selectedLabel = statistics;
 
+        //根据权限展示不同界面
+        List<ScsIconLabel> scsIconLabels = null;
+        if(LoginFrame.isManager){
+            scsIconLabels = Arrays.asList(statistics, information, personal);
+        }else{
+            scsIconLabels = Arrays.asList(statistics,course, personal);
+        }
 
         //遍历设置监听器
-        List<ScsIconLabel> labelList = new ArrayList<>(Arrays.asList(statistics, information, person_add, course, setting));
+        List<ScsIconLabel> labelList = new ArrayList<>(scsIconLabels);
         for (ScsIconLabel scsIconLabel : labelList) {
             scsIconLabel.addMouseListener(new MouseAdapter() {
                 @Override

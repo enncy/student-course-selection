@@ -1,10 +1,12 @@
 package cn.enncy.scs.mapper;
 
-import cn.enncy.mybatis.annotation.Body;
 import cn.enncy.mybatis.annotation.Mapper;
-import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
+import cn.enncy.scs.pojo.Student;
+import cn.enncy.scs.view.constant.ScsTableName;
+
+import java.util.List;
 
 /**
  * //TODO
@@ -14,22 +16,12 @@ import cn.enncy.scs.pojo.BaseObject;
  */
 
 
-@Mapper(tableName = "students")
+@Mapper(tableName = ScsTableName.STUDENTS,resultType = Student.class)
 public interface StudentMapper extends BaseMapper{
 
     @Override
-    @SQL("INSERT IGNORE INTO #{TABLE_NAME}(#{"+KEY_ARRAY+"}) value(#{"+VALUE_ARRAY+"});")
-    int insert(@Body()BaseObject baseObject);
+    @SQL( "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
 
-    @Override
-    @SQL("UPDATE TABLE #{TABLE_NAME} SET name=#{name} ,pwd=#{pwd},class_id=#{class_id} WHERE id=#{id};")
-    int update(@Body()BaseObject baseObject);
 
-    @Override
-    @SQL("DELETE FROM #{TABLE_NAME} WHERE id=#{id};")
-    int deleteById(@Param("id") int id);
-
-    @Override
-    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
-    BaseObject findOneById(@Param("id") int id);
 }

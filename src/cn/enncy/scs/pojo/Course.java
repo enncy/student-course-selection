@@ -9,14 +9,24 @@ package cn.enncy.scs.pojo;
  */
 public class Course extends BaseObject {
 
-    String name;
-    String type;
-    int hour;
-    int theory_hour;
-    int experiment_hour;
-    int credit;
-    int semester;
-    String description;
+    @Info("课程名")
+    private String name;
+    @Info("课程性质")
+    private String type;
+    @Info("学时")
+    private int hour;
+    @Info("理论课学时")
+    private int theory_hour;
+    @Info("实验课学时")
+    private int experiment_hour;
+    @Info("学分")
+    private int credit;
+    @Info("开课学期")
+    private int semester;
+    @Info("课程简介")
+    private String description;
+
+    public Course() { }
 
     public Course(String name, String type, int hour, int theory_hour, int experiment_hour, int credit, int semester, String description) {
         this.name = name;

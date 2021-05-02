@@ -9,8 +9,13 @@ package cn.enncy.scs.pojo;
  */
 public class Major extends  BaseObject{
 
-    String name;
-    String description;
+    @Info("专业名")
+    private String name;
+
+    @Info("专业描述")
+    private String description;
+
+    public Major() { }
 
     public Major(String name, String description) {
         this.name = name;

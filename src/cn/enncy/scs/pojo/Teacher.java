@@ -8,22 +8,19 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 public class Teacher extends BaseObject{
+    @Info("教师名")
+    private String name;
 
-    String name;
-    String number;
-    String  pwd;
-    String description;
+    @Info("教师编号")
+    private String number;
+    @Info("教师简介")
+    private String description;
 
-    public Teacher(String name, String number, String pwd) {
+    public Teacher() { }
+
+    public Teacher(String name, String number, String description) {
         this.name = name;
         this.number = number;
-        this.pwd = pwd;
-    }
-
-    public Teacher(String name, String number, String pwd, String description) {
-        this.name = name;
-        this.number = number;
-        this.pwd = pwd;
         this.description = description;
     }
 
@@ -43,14 +40,6 @@ public class Teacher extends BaseObject{
         this.number = number;
     }
 
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -62,13 +51,12 @@ public class Teacher extends BaseObject{
     @Override
     public String toString() {
         return "Teacher{" +
-                "name='" + name + '\'' +
-                ", number='" + number + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
+                "id=" + id +
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

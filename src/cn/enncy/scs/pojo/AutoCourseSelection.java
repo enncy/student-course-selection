@@ -9,8 +9,10 @@ package cn.enncy.scs.pojo;
  */
 public class AutoCourseSelection extends BaseObject {
 
-    int student_id;
-    int course_id;
+    private int student_id;
+    private int course_id;
+
+    public AutoCourseSelection() { }
 
     public AutoCourseSelection(int student_id, int course_id) {
         this.student_id = student_id;

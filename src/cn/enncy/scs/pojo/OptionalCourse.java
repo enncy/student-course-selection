@@ -9,9 +9,14 @@ package cn.enncy.scs.pojo;
  */
 public class OptionalCourse  extends BaseObject {
 
-    int course_id;
-    int teacher_id;
-    int max_num;
+    @Info("课程id")
+    private int course_id;
+    @Info("教师id")
+    private int teacher_id;
+    @Info("课程最大人数")
+    private int max_num;
+
+    public OptionalCourse() { }
 
     public OptionalCourse(int course_id, int teacher_id, int max_num) {
         this.course_id = course_id;

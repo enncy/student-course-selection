@@ -1,4 +1,4 @@
-package cn.enncy.scs.view.constant.color;
+package cn.enncy.scs.view.constant;
 
 
 import java.awt.*;

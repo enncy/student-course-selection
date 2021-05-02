@@ -47,7 +47,6 @@ public class TitleBarRightPanel extends ScsWhitePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 jFrame.dispose();
-                System.exit(0);
             }
         });
         this.add(min);

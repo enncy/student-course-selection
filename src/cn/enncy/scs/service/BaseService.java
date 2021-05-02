@@ -5,6 +5,8 @@ import cn.enncy.mybatis.SqlSession;
 import cn.enncy.scs.mapper.BaseMapper;
 import cn.enncy.scs.pojo.BaseObject;
 
+import java.util.List;
+
 /**
  * //TODO
  * <br/>Created in 12:41 2021/4/19
@@ -37,5 +39,10 @@ public class BaseService implements BaseMapper {
     @Override
     public BaseObject findOneById(int id) {
         return baseMapper.findOneById(id);
+    }
+
+    @Override
+    public List<BaseObject> findAll() {
+        return  baseMapper.findAll();
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Objects;
 
 /**
  * //TODO   基础Frame组件
@@ -50,6 +51,10 @@ public class BaseFrame extends ResizeFrame {
      */
     private void init(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ImageIcon imageIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("icon/logo.png")).getPath());
+        // 设置标题栏的图标为face.gif
+        this.setIconImage(imageIcon.getImage());
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override

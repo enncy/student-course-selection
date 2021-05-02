@@ -2,8 +2,12 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.Teacher;
+import cn.enncy.scs.view.constant.ScsTableName;
+
+import java.util.List;
 
 /**
  * //TODO
@@ -12,17 +16,9 @@ import cn.enncy.scs.pojo.Teacher;
  * @author: enncy
  */
 
-@Mapper(tableName = "teachers",bean = Teacher.class)
+@Mapper(tableName = ScsTableName.TEACHERS,resultType = Teacher.class)
 public interface TeacherMapper extends BaseMapper{
     @Override
-    int insert(BaseObject baseObject);
-
-    @Override
-    int update(BaseObject baseObject);
-
-    @Override
-    int deleteById(int id);
-
-    @Override
-    Teacher findOneById(int id);
+    @SQL( "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
 }

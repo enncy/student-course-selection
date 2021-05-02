@@ -7,6 +7,8 @@ import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.mybatis.constant.SqlConstant;
 import cn.enncy.scs.pojo.BaseObject;
 
+import java.util.List;
+
 /**
  * //TODO 基础通用 mapper
  * <br/>Created in 20:30 2021/4/18
@@ -27,10 +29,13 @@ public interface BaseMapper{
     @SQL("DELETE FROM #{TABLE_NAME} WHERE id=#{id};")
     int deleteById(@Param("id") int id);
 
-    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id}")
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
     BaseObject findOneById(@Param("id") int id);
 
-    @SQL("UPDATE TABLE #{TABLE_NAME} SET #{"+SET_ARRAY+"} WHERE id=#{id};")
+    @SQL(value = "SELECT * FROM #{TABLE_NAME};")
+    List<BaseObject> findAll();
+
+    @SQL("UPDATE  #{TABLE_NAME} SET #{"+SET_ARRAY+"} WHERE id=#{id};")
     int update(@Body() BaseObject baseObject);
 
 }

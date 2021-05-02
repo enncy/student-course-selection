@@ -8,8 +8,13 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 public class CourseSelection  extends  BaseObject{
-    int student_id;
-    int course_id;
+
+    @Info("学生id")
+    private int student_id;
+    @Info("课程id")
+    private int course_id;
+
+    public CourseSelection() { }
 
     public CourseSelection(int student_id, int course_id) {
         this.student_id = student_id;

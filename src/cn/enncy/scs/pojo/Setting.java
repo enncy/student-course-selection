@@ -9,20 +9,28 @@ package cn.enncy.scs.pojo;
  */
 public class Setting extends BaseObject{
 
-    String key;
-    String value;
+    @Info("键")
+    private String name;
+    @Info("值")
+    private String value;
+    @Info("设置描述")
+    private String description;
 
-    public Setting(String key, String value) {
-        this.key = key;
+    public Setting() { }
+
+
+    public Setting(String name, String value, String description) {
+        this.name = name;
         this.value = value;
+        this.description = description;
     }
 
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getValue() {
@@ -33,14 +41,23 @@ public class Setting extends BaseObject{
         this.value = value;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Setting{" +
-                "key='" + key + '\'' +
-                ", value='" + value + '\'' +
-                ", id=" + id +
+                "id=" + id +
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
+                ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

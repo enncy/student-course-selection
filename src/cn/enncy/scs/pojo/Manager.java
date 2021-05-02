@@ -14,6 +14,8 @@ public class Manager extends BaseObject{
     private String account;
     private String pwd;
 
+    public Manager() { }
+
     public Manager(String name, String account, String pwd ) {
         this.name = name;
         this.account = account;

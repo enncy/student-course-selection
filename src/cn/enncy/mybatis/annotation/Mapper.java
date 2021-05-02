@@ -16,5 +16,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface Mapper {
     String tableName();
-    Class bean() default BaseObject.class;
+    Class resultType() default BaseObject.class;
 }

@@ -1,5 +1,7 @@
 package cn.enncy.mybatis.annotation;
 
+import cn.enncy.scs.pojo.BaseObject;
+
 import java.lang.annotation.*;
 
 /**
@@ -14,5 +16,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface SQL {
     String value();
-    Class resultType() default Object.class;
+    Class resultType() default BaseObject.class;
 }

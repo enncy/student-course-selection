@@ -8,7 +8,9 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 public class CancelSelection  extends BaseObject{
-    int selection_id;
+    private int selection_id;
+
+    public CancelSelection() { }
 
     public CancelSelection(int selection_id) {
         this.selection_id = selection_id;

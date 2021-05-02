@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component;
 
 
-import cn.enncy.scs.view.constant.color.NiceColors;
+import cn.enncy.scs.view.constant.NiceColors;
 
 import javax.swing.*;
 import java.awt.*;

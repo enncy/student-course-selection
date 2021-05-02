@@ -1,7 +1,7 @@
 package cn.enncy.scs.view.component.dialog;
 
 
-import cn.enncy.scs.view.constant.color.NiceColors;
+import cn.enncy.scs.view.constant.NiceColors;
 import cn.enncy.scs.view.frame.MainFrame;
 
 import javax.swing.*;
@@ -18,6 +18,7 @@ public class ScsAlert extends JDialog {
 
     //弹窗个数
     private static int num=0;
+    public static Component parent = MainFrame.frame;
 
     public static ScsAlert alert(String text, Color borderColor, Color backgroundColor){
         JLabel jLabel = new JLabel(text);
@@ -26,7 +27,6 @@ public class ScsAlert extends JDialog {
     }
 
     public static ScsAlert success(String text){
-
         return alert(text,NiceColors.LIGHT_GREEN,NiceColors.WHITE_GREEN);
     }
     public static ScsAlert warining(String text){
@@ -39,8 +39,11 @@ public class ScsAlert extends JDialog {
         return alert(text,NiceColors.LIGHT_RED,NiceColors.WHITE_RED);
     }
 
+    public static ScsAlert alert( Component component, Color borderColor, Color backgroundColor){
+        return alert(parent, component, borderColor, backgroundColor);
+    }
 
-    public static ScsAlert alert(Component component, Color borderColor, Color backgroundColor){
+    public static ScsAlert alert(Component parent,Component component, Color borderColor, Color backgroundColor){
         num++;
         ScsAlert scsAlert = new ScsAlert(10 +(num*50),component,borderColor,backgroundColor);
         scsAlert.setVisible(true);
@@ -49,7 +52,7 @@ public class ScsAlert extends JDialog {
             try {
                 Thread.sleep(2000);
 
-                Component frame = MainFrame.frame;
+                Component frame = parent;
                 int x=frame.getX() + (frame.getWidth()/2) -( scsAlert.getWidth()/2);
                 int y=frame.getY()+ 50;
                 while (scsAlert.getY()>frame.getY()){

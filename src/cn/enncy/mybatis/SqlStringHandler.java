@@ -2,6 +2,7 @@ package cn.enncy.mybatis;
 
 
 import cn.enncy.mybatis.constant.SqlConstant;
+import cn.enncy.scs.pojo.BaseObject;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
@@ -34,10 +35,19 @@ public class SqlStringHandler {
             if (!"id".equals(mapKey)) {
                 result = replaceParam(result, mapKey, mapValue);
             } else {
-                result = replaceParam(result, "id", null);
+                //sql语句的类型，如果是insert，则 id 值设置为 null
+                if(sqlString.startsWith(SqlConstant.INSERT)){
+                    result = replaceParam(result, "id", null);
+                }else{
+                    result = replaceParam(result, mapKey, mapValue);
+                }
             }
         }
         return result;
+    }
+
+    public static String replaceParams(String sqlString,BaseObject baseObject){
+        return replaceParams(sqlString, getObjectValueMap(baseObject));
     }
 
     /**因为 update 操作由于参数非常多，导致sql语句冗余，所以反射获得对象的属性与值，替换 #{SET_ARRAY}
@@ -51,10 +61,13 @@ public class SqlStringHandler {
         StringBuilder setArray = new StringBuilder();
         for (Map.Entry<String, Object> entry : paramsMap.entrySet()) {
             if (!"id".equals(entry.getKey())) {
-                setArray.append(" ").append(entry.getKey()).append("=").append(entry.getValue()).append(" ,");
+                setArray.append(" ").append(entry.getKey()).append("=").append("\"").append(entry.getValue()).append("\"").append(" ,");
             }
         }
+        //消除最后一个 , 符号
+        setArray = setArray.replace(setArray.length() - 1, setArray.length(), "");
         result = replaceParam(result, SqlConstant.SET_ARRAY, setArray);
+
         return result;
     }
 
@@ -113,7 +126,6 @@ public class SqlStringHandler {
             throw new SQLException(SqlConstant.TABLE_NAME + " param is not found");
         }
         sqlString = replaceParam(sqlString, SqlConstant.TABLE_NAME, tableName);
-        sqlString = sqlString.replaceAll("\"", "");
         return sqlString;
     }
 
@@ -123,9 +135,9 @@ public class SqlStringHandler {
      * @param objects 对象的数组，将全部属性一并加入
      * @return: java.util.Map<java.lang.String                                                                                                                                                                                                                                                               ,                                                                                                                                                                                                                                                               java.lang.Object>
      */
-    public static <T> Map<String, Object> getObjectsValueMap(T... objects) {
+    public static   Map<String, Object> getObjectsValueMap(BaseObject... objects) {
         Map<String, Object> map = new HashMap<>();
-        for (T object : objects) {
+        for (BaseObject object : objects) {
             map.putAll(getObjectValueMap(object));
         }
         return map;
@@ -134,19 +146,19 @@ public class SqlStringHandler {
     /**
      * 获取对象中的 key - value 键值对的集合
      *
-     * @param t 对象
+     * @param baseObject 对象
      * @return: java.util.Map<java.lang.String                                                                                                                               ,                                                                                                                               java.lang.Object>
      */
-    public static <T> Map<String, Object> getObjectValueMap(T t) {
+    public static   Map<String, Object> getObjectValueMap(BaseObject baseObject) {
         Map<String, Object> map = new HashMap<>();
-        Field[] field = t.getClass().getDeclaredFields();
+        Field[] field = ResultSetHandler.getBaseObjectFields(baseObject.getClass());
 
         for (Field f : field) {
             try {
                 if (!f.isAccessible()) {
                     f.setAccessible(true);
                 }
-                map.put(f.getName(), f.get(t));
+                map.put(f.getName(), f.get(baseObject));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

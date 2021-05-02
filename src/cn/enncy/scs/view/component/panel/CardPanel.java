@@ -1,13 +1,12 @@
 package cn.enncy.scs.view.component.panel;
 
 
-import cn.enncy.scs.view.constant.color.NiceColors;
+import cn.enncy.scs.view.constant.NiceColors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.Objects;
 
 
 
@@ -26,6 +25,7 @@ public class CardPanel  extends AdaptivePanel {
         //主容器
         container = new ScsWhitePanel();
         container.setBorder(new EmptyBorder(10,10,10,10));
+
         //标题容器
         ScsWhitePanel titlePanel = new ScsWhitePanel(new BorderLayout());
         this.setLayout(new BorderLayout());
@@ -51,20 +51,12 @@ public class CardPanel  extends AdaptivePanel {
 
     }
 
+
     // 设置为空的图案
     public static void setEmpty(JComponent component){
         if(component.getComponents().length==0){
-            ScsWhitePanel empty = new ScsWhitePanel(new BorderLayout());
-            JLabel jLabel = new JLabel("",JLabel.CENTER);
-            ImageIcon icon = new ImageIcon(Objects.requireNonNull(CardPanel.class.getClassLoader().getResource("icon/empty.png")).getPath());
-            icon.setImage(icon.getImage().getScaledInstance(50,50,Image.SCALE_AREA_AVERAGING));
-            jLabel.setIcon(icon);
-            empty.add(jLabel,BorderLayout.NORTH);
-            JLabel description = new JLabel("暂无数据",JLabel.CENTER);
-            description.setFont(new Font("微软雅黑",0,14));
-            description.setForeground(NiceColors.DARK_GRAY);
-            empty.add(description,BorderLayout.SOUTH);
-            component.add(empty,"icon");
+            EmptyPanel emptyPanel = new EmptyPanel();
+            component.add(emptyPanel,"icon");
         }else{
             for (Component c : component.getComponents()) {
                 if("icon".equals(c.getName())){

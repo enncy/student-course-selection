@@ -2,6 +2,7 @@ package cn.enncy.scs;
 
 
 import cn.enncy.mybatis.SqlSession;
+import cn.enncy.scs.view.frame.LoginFrame;
 import cn.enncy.scs.view.frame.MainFrame;
 
 /**
@@ -12,13 +13,19 @@ import cn.enncy.scs.view.frame.MainFrame;
  */
 public class Application {
 
+
     public static void main(String[] args) {
         //初始化数据库
         SqlSession.initSql("cn.enncy.scs.mapper");
-        //初始化界面
-        MainFrame.init();
+        //初始化设置
+        SqlSession.initSettings();
+        //初始化主题
+        MainFrame.initTheme();
+        //登录界面
+        LoginFrame.init();
 
     }
+
 
 }
 

@@ -45,6 +45,7 @@ public class TitleBarPanel extends JPanel {
                 super.mouseClicked(e);
             }
         });
+
     }
 
     public TitleBarLeftPanel getTitleBarLeftPanel() {

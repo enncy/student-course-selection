@@ -3,8 +3,10 @@ package cn.enncy.mybatis;
 
 import cn.enncy.mybatis.constant.SqlConstant;
 import cn.enncy.scs.exception.SqlAnnotationNotFoundException;
-import cn.enncy.scs.utils.PropertiesUtil;
+import cn.enncy.scs.utils.PropertiesUtils;
+import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
@@ -18,8 +20,17 @@ import java.sql.*;
 public class DBUtils {
 
 
+    private static final Logger logger = Logger.getLogger(DBUtils.class);
+    private static PropertiesUtils setting;
 
-    private static PropertiesUtil setting = new PropertiesUtil(DBUtils.class.getClassLoader().getResource("setting.properties").getPath());
+    static {
+        try {
+            setting = new PropertiesUtils("setting.properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("[数据库参数]:url:"+setting.get("url")+" , user:"+setting.get("user")+" , pwd:"+setting.get("pwd"));
+    }
 
     public  static Object execute(String sql) throws SQLException {
         return execute(sql, new ExecuteCallback() {
@@ -40,22 +51,22 @@ public class DBUtils {
         Statement statement = null;
         try {
             //启动JDBC驱动
-            String driver = setting.getString("driver");
+            String driver = setting.get("driver");
 
             Class.forName(driver);
             //链接数据库
             connection = DriverManager.getConnection(
-                    setting.getString("url"),
-                    setting.getString("user"),
-                    setting.getString("pwd"));
+                    setting.get("url"),
+                    setting.get("user"),
+                    setting.get("pwd"));
             //查询数据
             statement = connection.createStatement();
             //执行sql
 
-            if (sql.startsWith(SqlConstant.INSERT) || sql.startsWith(SqlConstant.UPDATE) || sql.startsWith(SqlConstant.DELETE)) {
+            if (sql.toUpperCase().startsWith(SqlConstant.INSERT) || sql.toUpperCase().startsWith(SqlConstant.UPDATE) || sql.toUpperCase().startsWith(SqlConstant.DELETE)) {
                 int count = statement.executeUpdate(sql);
                 return executeCallBack.execute(count);
-            } else if (sql.startsWith(SqlConstant.SELECT)) {
+            } else if (sql.toUpperCase().startsWith(SqlConstant.SELECT)) {
                 ResultSet resultSet = statement.executeQuery(sql);
                 return executeCallBack.executeQuery(resultSet);
             } else {

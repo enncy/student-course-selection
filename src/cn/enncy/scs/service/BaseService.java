@@ -42,6 +42,11 @@ public class BaseService implements BaseMapper {
     }
 
     @Override
+    public List<BaseObject> findByPages(int skip, int size) {
+        return baseMapper.findByPages(skip,size);
+    }
+
+    @Override
     public List<BaseObject> findAll() {
         return  baseMapper.findAll();
     }

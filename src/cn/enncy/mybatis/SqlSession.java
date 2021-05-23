@@ -4,13 +4,16 @@ package cn.enncy.mybatis;
 import cn.enncy.io.FileContentReader;
 import cn.enncy.mybatis.annotation.Mapper;
 import cn.enncy.mybatis.constant.SqlConstant;
+import cn.enncy.mybatis.database.DBUtils;
+import cn.enncy.mybatis.database.ExecuteCallback;
 import cn.enncy.mybatis.proxy.SqlProxyInvocationHandler;
+import cn.enncy.reflect.ReflectUtils;
 import cn.enncy.scanner.AnnotationScanner;
 import cn.enncy.scs.exception.SqlAnnotationNotFoundException;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.Manager;
 import cn.enncy.scs.pojo.Setting;
-import cn.enncy.scs.view.constant.ScsTableName;
+import cn.enncy.scs.swing.constant.ScsTableName;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -123,7 +126,7 @@ public class SqlSession {
      * @return: void
      */
     private static void insertData(String tableName, BaseObject baseObject) throws SQLException {
-        String sql = SqlStringHandler.replaceInsertFields("INSERT IGNORE INTO "+tableName+"(#{" + SqlConstant.KEY_ARRAY + "}) value(#{" + SqlConstant.VALUE_ARRAY + "});", SqlStringHandler.getObjectsValueMap(baseObject));
+        String sql = SqlStringHandler.replaceInsertFields("INSERT IGNORE INTO "+tableName+"(#{" + SqlConstant.KEY_ARRAY + "}) value(#{" + SqlConstant.VALUE_ARRAY + "});", ReflectUtils.getObjectValueMap(baseObject));
         sql = SqlStringHandler.replaceParams(sql, baseObject);
         DBUtils.execute(sql);
     }

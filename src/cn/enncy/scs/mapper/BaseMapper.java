@@ -32,6 +32,9 @@ public interface BaseMapper{
     @SQL("SELECT * FROM #{TABLE_NAME} WHERE id=#{id};")
     BaseObject findOneById(@Param("id") int id);
 
+    @SQL("SELECT * FROM #{TABLE_NAME} LIMIT #{skip},#{size};")
+    List<BaseObject> findByPages(@Param("skip") int skip,@Param("size") int size);
+
     @SQL(value = "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
 

@@ -2,8 +2,8 @@ package cn.enncy.scs;
 
 
 import cn.enncy.mybatis.SqlSession;
-import cn.enncy.scs.view.frame.LoginFrame;
-import cn.enncy.scs.view.frame.MainFrame;
+import cn.enncy.scs.swing.frame.LoginFrame;
+import cn.enncy.scs.swing.frame.MainFrame;
 
 /**
  * //TODO

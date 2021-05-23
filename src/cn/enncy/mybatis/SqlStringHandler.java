@@ -2,11 +2,10 @@ package cn.enncy.mybatis;
 
 
 import cn.enncy.mybatis.constant.SqlConstant;
+import cn.enncy.reflect.ReflectUtils;
 import cn.enncy.scs.pojo.BaseObject;
 
-import java.lang.reflect.Field;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +46,7 @@ public class SqlStringHandler {
     }
 
     public static String replaceParams(String sqlString,BaseObject baseObject){
-        return replaceParams(sqlString, getObjectValueMap(baseObject));
+        return replaceParams(sqlString, ReflectUtils.getObjectValueMap(baseObject));
     }
 
     /**因为 update 操作由于参数非常多，导致sql语句冗余，所以反射获得对象的属性与值，替换 #{SET_ARRAY}
@@ -129,42 +128,7 @@ public class SqlStringHandler {
         return sqlString;
     }
 
-    /**
-     * 获取对象中的 key - value 键值对的集合
-     *
-     * @param objects 对象的数组，将全部属性一并加入
-     * @return: java.util.Map<java.lang.String                                                                                                                                                                                                                                                               ,                                                                                                                                                                                                                                                               java.lang.Object>
-     */
-    public static   Map<String, Object> getObjectsValueMap(BaseObject... objects) {
-        Map<String, Object> map = new HashMap<>();
-        for (BaseObject object : objects) {
-            map.putAll(getObjectValueMap(object));
-        }
-        return map;
-    }
 
-    /**
-     * 获取对象中的 key - value 键值对的集合
-     *
-     * @param baseObject 对象
-     * @return: java.util.Map<java.lang.String                                                                                                                               ,                                                                                                                               java.lang.Object>
-     */
-    public static   Map<String, Object> getObjectValueMap(BaseObject baseObject) {
-        Map<String, Object> map = new HashMap<>();
-        Field[] field = ResultSetHandler.getBaseObjectFields(baseObject.getClass());
-
-        for (Field f : field) {
-            try {
-                if (!f.isAccessible()) {
-                    f.setAccessible(true);
-                }
-                map.put(f.getName(), f.get(baseObject));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return map;
-    }
 
 
     /**

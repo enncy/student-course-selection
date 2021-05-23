@@ -1,8 +1,8 @@
 package cn.enncy.mybatis.proxy;
 
 
-import cn.enncy.mybatis.DBUtils;
-import cn.enncy.mybatis.ExecuteCallback;
+import cn.enncy.mybatis.database.DBUtils;
+import cn.enncy.mybatis.database.ExecuteCallback;
 import cn.enncy.mybatis.ResultSetHandler;
 import cn.enncy.mybatis.SqlStringHandler;
 import cn.enncy.mybatis.annotation.Body;
@@ -11,6 +11,7 @@ import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.mybatis.constant.SqlConstant;
 import cn.enncy.mybatis.pojo.SqlAnnotation;
+import cn.enncy.reflect.ReflectUtils;
 import cn.enncy.scs.exception.SqlAnnotationNotFoundException;
 import cn.enncy.scs.exception.TableAnnotationNotFoundException;
 import cn.enncy.scs.pojo.BaseObject;
@@ -25,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.log4j.Logger.getLogger;
 
@@ -99,7 +101,7 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
         Mapper mapper = (Mapper) target.getAnnotation(Mapper.class);
         SQL sql = (SQL) sqlAnnotation.getMethodAnnotation();
         //处理 sql 语句
-        String sqlString = handelSqlString(sql.value(), sqlAnnotation.getMethod().getParameters(), args);
+        String sqlString = handleSqlString(sql.value(), sqlAnnotation.getMethod().getParameters(), args);
 
         // 执行 sql 语句 并返回值
         Object result = null;
@@ -129,24 +131,22 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
                             list.add(resultTarget);
                         }
                         resultSet.close();
+
                         return list;
                     } else {
                         Object resultTarget = null;
+
                         if (resultSet.next()) {
                             resultTarget = ResultSetHandler.createResultTarget(resultSet,targetType);
                         }
+
                         resultSet.close();
                         return resultTarget;
                     }
                 }
-
-                @Override
-                public int execute(int count) {
-                    return count;
-                }
             });
         } catch (SQLException e) {
-            logger.error("[SQL] : " + sqlString);
+            logger.error("[SQL ERROR] : " + sqlString);
             e.printStackTrace();
         }
         logger.info("[SQL] : " + sqlString + "[RESULT]:" + result);
@@ -162,29 +162,33 @@ public class SqlProxyInvocationHandler implements InvocationHandler {
      * @param args       代理对象的参数
      * @return: java.lang.String
      */
-    private String handelSqlString(String sqlString, Parameter[] parameters, Object[] args) throws SqlAnnotationNotFoundException {
+    private String handleSqlString(String sqlString, Parameter[] parameters, Object[] args) throws SqlAnnotationNotFoundException {
         String result = sqlString;
         for (int i = 0; i < parameters.length; i++) {
+            Parameter parameter = parameters[i];
+
             // 通过 Body注解  处理
-            if (parameters[i].isAnnotationPresent(Body.class)) {
+            if (parameter.isAnnotationPresent(Body.class)) {
+                BaseObject baseObject = (BaseObject) args[i];
+                Map<String, Object> objectsValueMap = ReflectUtils.getObjectsValueMap(baseObject);
                 //如果是插入操作，则解析参数
                 if (sqlString.toUpperCase().startsWith(SqlConstant.INSERT)) {
-                    result = SqlStringHandler.replaceInsertFields(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                    result = SqlStringHandler.replaceInsertFields(result, objectsValueMap);
                 } else {
                     if (sqlString.toUpperCase().startsWith(SqlConstant.UPDATE)) {
-                        result = SqlStringHandler.replaceUpdateFields(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
-                        result = SqlStringHandler.replaceParams(result, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                        result = SqlStringHandler.replaceUpdateFields(result,objectsValueMap);
+                        result = SqlStringHandler.replaceParams(result, objectsValueMap);
                     }else{
-                        result = SqlStringHandler.replaceParams(sqlString, SqlStringHandler.getObjectsValueMap((BaseObject) args[i]));
+                        result = SqlStringHandler.replaceParams(result,objectsValueMap);
                     }
 
                 }
 
             }
             // 通过 Param注解  处理
-            else if (parameters[i].isAnnotationPresent(Param.class)) {
-                Param param = parameters[i].getAnnotation(Param.class);
-                result = SqlStringHandler.replaceParam(sqlString, param.value(), String.valueOf(args[i]));
+            else if (parameter.isAnnotationPresent(Param.class)) {
+                Param param = parameter.getAnnotation(Param.class);
+                result = SqlStringHandler.replaceParam(result, param.value(), String.valueOf(args[i]));
             }
             //如果参数都没有以上的注解，则抛出异常
             else {

@@ -4,7 +4,7 @@ import cn.enncy.mybatis.annotation.Mapper;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.CourseSelection;
-import cn.enncy.scs.view.constant.ScsTableName;
+import cn.enncy.scs.swing.constant.ScsTableName;
 
 import java.util.List;
 

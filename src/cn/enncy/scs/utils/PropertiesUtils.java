@@ -26,6 +26,7 @@ public class PropertiesUtils {
     private static final String ANNOTATION_CHAR = "#";
 
 
+
     public PropertiesUtils(File file) throws IOException {
         this.file = file;
         this.lines = getFileLines(file);
@@ -209,6 +210,25 @@ public class PropertiesUtils {
             } else {
                 throw new FileNotFoundException("properties file is not found");
             }
+        }
+    }
+
+
+    public static PropertiesUtils getInstance(String path) {
+        try{
+            return new PropertiesUtils(path);
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static PropertiesUtils getInstance(File file) {
+        try{
+            return new PropertiesUtils(file);
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
         }
     }
 

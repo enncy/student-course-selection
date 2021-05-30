@@ -22,7 +22,7 @@ public class ResizeFrame extends JFrame {
     private boolean isBottom;// 是否处于下边界调整窗口状态
     private boolean isBottomLeft;// 是否处于左下角调整窗口状态
     private boolean isLeft;// 是否处于左边界调整窗口状态
-    private final static int RESIZE_WIDTH = 5;// 判定是否为调整窗口状态的范围与边界距离
+    private final static int RESIZE_WIDTH = 15;// 判定是否为调整窗口状态的范围与边界距离
     private     int min_width = 500;// 窗口最小宽度
     private     int min_height = 400;// 窗口最小高度
 
@@ -33,7 +33,19 @@ public class ResizeFrame extends JFrame {
         this.min_height = min_height;
         this.min_width = min_width;
 
+        //鼠标离开页面后重新设置鼠标样式，解决鼠标移开之后，点击任务栏中的应用进行最小化，再次点击后应用显示，造成鼠标依然显示上一次在边界位置的样式。
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                Component c = e.getComponent();
+                c.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        //鼠标监听
         addMouseMotionListener(new MouseAdapter() {
+
+
             @Override
             public void mouseMoved(MouseEvent event) {
                 Component c = event.getComponent();

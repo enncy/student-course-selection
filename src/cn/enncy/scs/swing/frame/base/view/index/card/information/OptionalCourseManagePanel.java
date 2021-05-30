@@ -3,7 +3,8 @@ package cn.enncy.scs.swing.frame.base.view.index.card.information;
 
 import cn.enncy.scs.pojo.OptionalCourse;
 import cn.enncy.scs.service.OptionalCourseService;
-import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
+import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.PagingManagerPanel;
 
 /**
  * //TODO
@@ -11,10 +12,10 @@ import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
  *
  * @author: KL-Skeleton
  */
-public class OptionalCourseManagePanel extends ManagePanel {
+public class OptionalCourseManagePanel extends PagingManagerPanel {
 
 
     public OptionalCourseManagePanel() {
-        super(OptionalCourse.class, new OptionalCourseService());
+        super(OptionalCourse.class,  ServiceFactory.getService(OptionalCourseService .class) );
     }
 }

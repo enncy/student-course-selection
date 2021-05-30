@@ -18,29 +18,28 @@ import java.awt.*;
  */
 public class MainFrame {
 
-    private  static final Logger log = Logger.getLogger(MainFrame.class);
-    public static JFrame frame = new BaseFrame("学生选课系统",1200,700,600,400);
+    private static final Logger log = Logger.getLogger(MainFrame.class);
+    public static   JFrame frame;
 
 
-
-    public static void  init(){
+    public static void init() {
 
         log.info("开始显示界面");
-
+        frame =new BaseFrame("学生选课系统", 1200, 700, 600, 400);
         frame.setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
 
         frame.setLocationRelativeTo(null);
         IndexPanel indexPanel = new IndexPanel();
-        frame.add(indexPanel,BorderLayout.CENTER);
+        frame.add(indexPanel, BorderLayout.CENTER);
 
         frame.setUndecorated(true);
-        frame.setBackground(new Color(0,0,0,0));
+        frame.setBackground(new Color(0, 0, 0, 0));
         frame.setVisible(true);
 
     }
 
-    public static void initTheme(){
+    public static void initTheme() {
         try {
             log.info("加载主题");
             BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated;
@@ -49,10 +48,9 @@ public class MainFrame {
             org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
         } catch (Exception e) {
             // TODO exception
-            log.error("加载主题失败:"+e.getMessage());
+            log.error("加载主题失败:" + e.getMessage());
         }
     }
-
 
 
 }

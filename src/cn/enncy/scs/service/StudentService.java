@@ -2,6 +2,7 @@ package cn.enncy.scs.service;
 
 
 import cn.enncy.scs.mapper.StudentMapper;
+import cn.enncy.scs.pojo.Student;
 
 /**
  * //TODO
@@ -9,10 +10,16 @@ import cn.enncy.scs.mapper.StudentMapper;
  *
  * @author: enncy
  */
-public class StudentService  extends BaseService  {
+public class StudentService  extends BaseService  implements StudentMapper{
 
+    private StudentMapper studentMapper = (StudentMapper) baseMapper;
 
     public StudentService( ) {
         super(StudentMapper.class);
+    }
+
+    @Override
+    public Student findByNumber(String number) {
+        return studentMapper.findByNumber(number);
     }
 }

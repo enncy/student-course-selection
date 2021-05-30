@@ -91,4 +91,14 @@ public class ScsAlert extends JDialog {
         this.setLocation(x,y);
     }
 
+    public static void autoAlert(int status,String lessThanZeroMsg,String equalsZeroMsg,String moreThanZeroMsg){
+        if(status==0) {
+            ScsAlert.warining(equalsZeroMsg);
+        } else if(status>0) {
+            ScsAlert.success(moreThanZeroMsg);
+        } else {
+            ScsAlert.error(lessThanZeroMsg);
+        }
+    }
+
 }

@@ -14,7 +14,7 @@ import java.util.List;
  * @author: enncy
  */
 
-public class ManagerService extends BaseService  {
+public class ManagerService extends BaseService implements ManagerMapper {
 
     private ManagerMapper managerMapper = (ManagerMapper) baseMapper;
 
@@ -23,11 +23,13 @@ public class ManagerService extends BaseService  {
     }
 
 
+    @Override
     public Manager findByAccount(String account) {
         return managerMapper.findByAccount(account);
     }
 
 
+    @Override
     public List<Manager> findByName(String name) {
         return managerMapper.findByName(name);
     }

@@ -77,7 +77,7 @@ public class ScsIconLabel extends ScsLabel {
      * 选中此组件
      * @return: void
      */
-    public void selected(){
+    public void select(){
         if(scsLabelSelectedListener !=null){
             scsLabelSelectedListener.onSelected(this);
         }
@@ -122,5 +122,12 @@ public class ScsIconLabel extends ScsLabel {
         this.scsLabelSelectedListener = scsLabelSelectedListener;
     }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
 
 }

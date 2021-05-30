@@ -3,7 +3,8 @@ package cn.enncy.scs.swing.frame.base.view.index.card.information;
 
 import cn.enncy.scs.pojo.Major;
 import cn.enncy.scs.service.MajorService;
-import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
+import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.PagingManagerPanel;
 
 /**
  * //TODO
@@ -11,12 +12,12 @@ import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
  *
  * @author: enncy
  */
-public class MajorsManagePanel extends ManagePanel {
+public class MajorsManagePanel extends PagingManagerPanel {
 
 
 
     public MajorsManagePanel() {
-        super(Major.class,new MajorService());
+        super(Major.class,  ServiceFactory.getService(MajorService.class) );
 
     }
 }

@@ -3,7 +3,7 @@ package cn.enncy.scs.swing.frame.base.view.index;
 
 import cn.enncy.scs.swing.component.panel.DropShadowPanel;
 import cn.enncy.scs.swing.component.scroll.ScsScrollPanel;
-import cn.enncy.scs.swing.component.title.TitlePanel;
+import cn.enncy.scs.swing.component.title.DragPanel;
 import cn.enncy.scs.swing.frame.LoginFrame;
 import cn.enncy.scs.swing.frame.MainFrame;
 import cn.enncy.scs.swing.frame.base.view.index.card.courses.CoursePanel;
@@ -22,31 +22,35 @@ import java.awt.*;
  */
 public class IndexPanel extends DropShadowPanel {
 
-    public static final CardLayoutPanel CARD_LAYOUT_PANEL = new CardLayoutPanel();
-    public static TitlePanel titlePanel = new TitlePanel(MainFrame.frame);
-    public IndexPanel(SidePanel sidePanel, CardLayoutPanel cardLayoutPanel) {
-        super(8);
-        BorderLayout borderLayout  =new BorderLayout();
+    public DragPanel dragPanel;
+    public SidePanel sidePanel;
+
+    public IndexPanel( ) {
+        super(15);
+        CardLayoutPanel cardLayoutPanel = CardLayoutPanel.getInstance();
+        dragPanel = new DragPanel(MainFrame.frame);
+        sidePanel = new SidePanel(dragPanel.getTitleBarPanel().getTitleBarLeftPanel());
+
+        BorderLayout borderLayout = new BorderLayout();
         this.setLayout(borderLayout);
-        this.add(sidePanel,BorderLayout.WEST);
+        this.add(sidePanel, BorderLayout.WEST);
 
         //卡片布局
         JPanel jPanel = new JPanel(new BorderLayout());
 
         //设置窗口标题
-        titlePanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle("学生选课系统");
-        titlePanel.getContainer().add(cardLayoutPanel,BorderLayout.CENTER);
-        jPanel.add(titlePanel,BorderLayout.CENTER);
+        dragPanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle("学生选课系统");
+        dragPanel.getContainer().add(cardLayoutPanel, BorderLayout.CENTER);
+        jPanel.add(dragPanel, BorderLayout.CENTER);
 
-        this.add(jPanel,BorderLayout.CENTER);
-
+        this.add(jPanel, BorderLayout.CENTER);
 
 
         StatisticsPanel statisticsPanel = new StatisticsPanel();
         PersonalPanel personalPanel = new PersonalPanel();
         CoursePanel coursePanel = new CoursePanel();
 
-        if(LoginFrame.isManager){
+        if (LoginFrame.isManager) {
             InformationPanel informationPanel = new InformationPanel();
             cardLayoutPanel.add(informationPanel, "信息管理");
         }
@@ -55,17 +59,20 @@ public class IndexPanel extends DropShadowPanel {
         cardLayoutPanel.add(coursePanel, "选课管理");
 
 
-
         sidePanel.addSCSLableSelectedListener(scsIconLabel -> {
-            System.out.println(scsIconLabel.getText());
-            cardLayoutPanel.showCard(scsIconLabel.getText());
+
+            if (scsIconLabel.getText().equals("退出")) {
+                sidePanel.selectDefault();
+                MainFrame.frame.dispose();
+                LoginFrame.loginDialog.setVisible(true);
+            }else{
+                cardLayoutPanel.showCard(scsIconLabel.getText());
+            }
+
         });
+        sidePanel.selectDefault();
+        cardLayoutPanel.showCard("数据统计");
 
-
-    }
-
-    public IndexPanel() {
-        this(new SidePanel(titlePanel.getTitleBarPanel().getTitleBarLeftPanel()),CARD_LAYOUT_PANEL);
     }
 
 

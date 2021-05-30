@@ -38,7 +38,10 @@ public interface BaseMapper{
     @SQL(value = "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
 
-    @SQL("UPDATE  #{TABLE_NAME} SET #{"+SET_ARRAY+"} WHERE id=#{id};")
+
+    @SQL("UPDATE IGNORE #{TABLE_NAME} SET #{"+SET_ARRAY+"} WHERE id=#{id};")
     int update(@Body() BaseObject baseObject);
+
+
 
 }

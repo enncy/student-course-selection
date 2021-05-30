@@ -1,40 +1,41 @@
 package cn.enncy.scs.swing.component.table;
 
 
-import cn.enncy.scs.swing.component.panel.ScsWhitePanel;
+import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.swing.constant.NiceColors;
+import cn.enncy.scs.swing.frame.MainFrame;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.ServiceComponent;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.dialog.ManageUpdateDialog;
 
 import javax.swing.*;
-import javax.swing.table.TableCellEditor;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
- * //TODO
+ * //TODO  管理列表操作渲染类
  * <br/>Created in 23:14 2021/4/26
  *
  * @author: enncy
  */
-public class ScsTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class ScsTableCellEditor extends TableCellEditorImpl{
 
-
-    private JPanel jPanel;
+    //更新按钮
     private JButton updateButton;
+    //删除按钮
     private JButton deleteButton;
-    private int selectedRow = -1;
+    //数据列表
+    private List data;
+    //业务组件
+    private ServiceComponent serviceComponent;
 
-    public ScsTableCellEditor(JPanel jPanel) {
-        this.jPanel = jPanel;
+    public ScsTableCellEditor(List data, ServiceComponent serviceComponent) {
+        this.data = data;
+        this.serviceComponent = serviceComponent;
     }
 
-    public ScsTableCellEditor(List data) {
-        this.jPanel = createCellPanel(data);
-    }
-
-    public JPanel createCellPanel(List data) {
-        JPanel operation = new ScsWhitePanel();
-        operation.setLayout(new FlowLayout());
-
+    @Override
+    public void buildComponent(JPanel operationPanel) {
         updateButton = new JButton("修改");
         updateButton.setForeground(NiceColors.BLUE);
         updateButton.setFont(new Font("微软雅黑", 0, 14));
@@ -43,27 +44,35 @@ public class ScsTableCellEditor extends AbstractCellEditor implements TableCellE
         deleteButton.setFont(new Font("微软雅黑", 0, 14));
         deleteButton.setForeground(NiceColors.RED);
 
+        ScsTableCellEditor scsTableCellEditor = this;
+        //修改按钮
+        updateButton.addActionListener(e->{
+            int selectedRow = scsTableCellEditor.getSelectedRow();
+            if (selectedRow != -1) {
+                try {
+                    new ManageUpdateDialog("修改信息",serviceComponent, (BaseObject) data.get(selectedRow));
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException noSuchMethodException) {
+                    noSuchMethodException.printStackTrace();
+                }
+            }
+        });
+        //删除按钮
+        deleteButton.addActionListener(e->{
+            int selectedRow = scsTableCellEditor.getSelectedRow();
+            int i = JOptionPane.showConfirmDialog(MainFrame.frame,"是否删除数据?删除后不可恢复！","警告",JOptionPane.YES_NO_OPTION);
+            if(i==JOptionPane.YES_OPTION){
+                //删除数据
+                serviceComponent.getBaseService().deleteById(((BaseObject)data.get(selectedRow)).getId());
+                //更新表格面板
+                serviceComponent.updateDataList();
+                serviceComponent.updateTablePanel();
+            }
+        });
 
-        operation.add(updateButton);
-        operation.add(deleteButton);
-        return operation;
+        operationPanel.add(updateButton);
+        operationPanel.add(deleteButton);
     }
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        selectedRow = row;
-        return jPanel;
-    }
-
-    @Override
-    public Object getCellEditorValue() {
-
-        return jPanel;
-    }
-
-    public JPanel getjPanel() {
-        return jPanel;
-    }
 
     public JButton getUpdateButton() {
         return updateButton;
@@ -79,13 +88,5 @@ public class ScsTableCellEditor extends AbstractCellEditor implements TableCellE
 
     public void setDeleteButton(JButton deleteButton) {
         this.deleteButton = deleteButton;
-    }
-
-    public int getSelectedRow() {
-        return selectedRow;
-    }
-
-    public void setSelectedRow(int selectedRow) {
-        this.selectedRow = selectedRow;
     }
 }

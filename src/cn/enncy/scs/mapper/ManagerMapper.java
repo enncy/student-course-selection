@@ -27,11 +27,11 @@ public interface ManagerMapper extends BaseMapper{
     @SQL( "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
 
-    @SQL("SELECT * FROM #{TABLE_NAME} WHERE account=#{account}")
+    @SQL("SELECT * FROM #{TABLE_NAME} WHERE account='#{account}'")
     Manager findByAccount(@Param("account") String account);
 
 
-    @SQL( "SELECT * FROM #{TABLE_NAME} WHERE name=#{name}")
+    @SQL( "SELECT * FROM #{TABLE_NAME} WHERE name='#{name}'")
     List<Manager> findByName(@Param("name") String name);
 
 }

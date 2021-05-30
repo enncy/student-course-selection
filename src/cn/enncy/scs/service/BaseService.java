@@ -23,7 +23,12 @@ public class BaseService implements BaseMapper {
 
     @Override
     public int insert(BaseObject baseObject) {
-        return baseMapper.insert(baseObject);
+        BaseObject object = baseMapper.findOneById(baseObject.getId());
+        if(object!=null){
+            return -1;
+        }else {
+            return baseMapper.insert(baseObject);
+        }
     }
 
     @Override

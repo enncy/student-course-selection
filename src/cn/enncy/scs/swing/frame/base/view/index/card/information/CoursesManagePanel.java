@@ -3,7 +3,8 @@ package cn.enncy.scs.swing.frame.base.view.index.card.information;
 
 import cn.enncy.scs.pojo.Course;
 import cn.enncy.scs.service.CourseService;
-import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
+import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.PagingManagerPanel;
 
 import javax.swing.*;
 
@@ -13,10 +14,10 @@ import javax.swing.*;
  *
  * @author: KL-Skeleton
  */
-public class CoursesManagePanel extends ManagePanel {
+public class CoursesManagePanel extends PagingManagerPanel {
 
     public CoursesManagePanel() {
-        super(Course.class, new CourseService());
+        super(Course.class, ServiceFactory.getService(CourseService.class)  );
 
         JPanel headerPanel = this.getHeaderPanel();
         headerPanel.add(new JButton("查询"));

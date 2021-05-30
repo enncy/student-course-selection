@@ -1,12 +1,14 @@
 package cn.enncy.scs.swing.frame;
 
 
-import cn.enncy.mybatis.database.DBUtils;
-import cn.enncy.mybatis.database.ExecuteCallback;
-import cn.enncy.scs.exception.SqlAnnotationNotFoundException;
+import cn.enncy.scs.pojo.Account;
+import cn.enncy.scs.pojo.Manager;
+import cn.enncy.scs.pojo.Student;
+import cn.enncy.scs.service.ManagerService;
+import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.service.StudentService;
 import cn.enncy.scs.swing.component.dialog.ScsDialog;
 import cn.enncy.scs.swing.constant.NiceColors;
-import cn.enncy.scs.swing.constant.ScsTableName;
 import cn.enncy.scs.utils.PropertiesUtils;
 import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
 
@@ -15,9 +17,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * //TODO
@@ -29,13 +28,20 @@ public class LoginFrame {
 
     private static JButton confirmJbutton = new JButton("登录");
     private static JButton cancelJbutton = new JButton("退出");
-    private static ScsDialog loginDialog = new ScsDialog("学生选课系统 - 登录");
+    public static ScsDialog loginDialog = new ScsDialog("学生选课系统 - 登录");
     private static PropertiesUtils propertiesUtil = PropertiesUtils.getInstance("setting.properties");
 
+    //用户对象
+    public static  Student student;
+    public static  Manager manager;
 
+    //是否为管理员
+    public static boolean isManager = true;
 
-    public static boolean isManager = false;
-    public static String defaultTable = ScsTableName.MANAGERS;
+    //登录类型
+    public static final int STUDENT_LOGIN = 0;
+    public static final int MANAGER_LOGIN =1;
+    public static int loginType = MANAGER_LOGIN;
 
     public static void init() {
 
@@ -54,7 +60,7 @@ public class LoginFrame {
 
         JTextField accountField = new JTextField(30);
         String account = propertiesUtil.get("account");
-        if(account!=null){
+        if (account != null) {
             accountField.setText(account);
         }
         accountField.setText(account);
@@ -66,7 +72,7 @@ public class LoginFrame {
         JPanel pwdPanel = new JPanel();
         JTextField pwdField = new JTextField(30);
         String password = propertiesUtil.get("password");
-        if(password!=null){
+        if (password != null) {
             pwdField.setText(password);
         }
         JLabel pwdJlabel = new JLabel("密码  ", JLabel.CENTER);
@@ -78,10 +84,10 @@ public class LoginFrame {
         JRadioButton managerLogin = new JRadioButton("管理员登录");
         JRadioButton studentLogin = new JRadioButton("学生登录");
         managerLogin.addActionListener(e -> {
-            defaultTable = ScsTableName.MANAGERS;
+            loginType = MANAGER_LOGIN;
         });
         studentLogin.addActionListener(e -> {
-            defaultTable = ScsTableName.STUDENTS;
+            loginType = STUDENT_LOGIN;
         });
         ButtonGroup btnGroup = new ButtonGroup();
         btnGroup.add(managerLogin);
@@ -116,7 +122,7 @@ public class LoginFrame {
         loginPanel.add(operatePanel);
 
 
-        JPanel container = loginDialog.getTitlePanel().getContainer();
+        JPanel container = loginDialog.getContainer();
         container.setLayout(new FlowLayout());
         container.add(loginPanel);
 
@@ -129,7 +135,7 @@ public class LoginFrame {
     }
 
 
-    private static void initEvent( JTextField accountField, JTextField pwdField) {
+    private static void initEvent(JTextField accountField, JTextField pwdField) {
         confirmJbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,7 +145,12 @@ public class LoginFrame {
                     JOptionPane.showMessageDialog(loginDialog, "请填写完整的信息！", "警告", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                login(defaultTable,account,pwd);
+
+                if (loginType==STUDENT_LOGIN) {
+                    studentLogin(account,pwd);
+                }else{
+                    managerLogin(account,pwd);
+                }
 
             }
         });
@@ -153,61 +164,79 @@ public class LoginFrame {
         });
     }
 
-    private static void login(String tableName,String account,String pwd){
-        try {
-
-            String selectSql = getSelectSql(tableName, account, pwd);
-
-            DBUtils.execute(selectSql, new ExecuteCallback() {
-                @Override
-                public Object executeQuery(ResultSet resultSet) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, SqlAnnotationNotFoundException {
-
-                    if (resultSet.next()) {
-
-                        //设置管理权限
-                        if(ScsTableName.MANAGERS.equals(tableName)){
-                            isManager = true;
-                        }
-                        MainFrame.init();
-                        loginDialog.dispose();
-                        //存入本地
-                        if(propertiesUtil.get("account")==null){
-                            propertiesUtil.add("account",account);
-                            propertiesUtil.add("password",pwd);
-                        }else{
-                            propertiesUtil.set("account",account);
-                            propertiesUtil.set("password",pwd);
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(loginDialog, "账号或者密码错误！", "错误", JOptionPane.ERROR_MESSAGE);
-                    }
-                    return null;
-                }
-            });
-
-        } catch (Exception throwables) {
-            JOptionPane.showMessageDialog(loginDialog, "未知错误! : " + throwables.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-
-            throwables.printStackTrace();
+    /**
+     * 学生登录
+     *
+     * @param number 学生编号
+     * @param pwd    学生密码
+     * @return: boolean
+     */
+    private static boolean studentLogin(String number, String pwd) {
+        StudentService service = ServiceFactory.getService(StudentService.class);
+        Student student = service.findByNumber(number);
+        boolean valid = valid(student, pwd);
+        if(valid){
+            isManager = false;
+            LoginFrame.student = student;
+            LoginFrame.manager = null;
+            MainFrame.init();
+            loginDialog.setVisible(false);
+            saveLoginInfo(student);
         }
+        return valid;
     }
 
     /**
+     * 管理员登录
      *
-     * 获取查询的语句，因为学生和教师的字段不同
-     * @param tableName
-     * @param account
-     * @param pwd
-     * @return: java.lang.String
+     * @param account 管理员账号
+     * @param pwd     管理员密码
+     * @return: boolean
      */
-    private static String getSelectSql(String tableName,String account,String pwd){
-        if(tableName.equals(ScsTableName.MANAGERS)){
-            return "SELECT * FROM " + tableName + " WHERE account='" + account + "' AND pwd='" + pwd + "' ;";
-        }else{
-            return "SELECT * FROM " + tableName + " WHERE number='" + account + "' AND pwd='" + pwd + "' ;";
+    private static boolean managerLogin(String account, String pwd) {
+        ManagerService service = ServiceFactory.getService(ManagerService.class);
+        Manager manager = service.findByAccount(account);
+        boolean valid = valid(manager, pwd);
+        if(valid){
+            isManager = true;
+            LoginFrame.student = null;
+            LoginFrame.manager = manager;
+            MainFrame.init();
+            loginDialog.setVisible(false);
+            saveLoginInfo(manager);
+        }
+        return  valid;
+    }
+
+    /**
+     * 验证账号是否正确
+     *
+     * @param account 账号类
+     * @param pwd     密码
+     * @return: void
+     */
+    public static boolean valid(Account account, String pwd) {
+        if (account != null && account.getPassword().equals(pwd)) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(loginDialog, "账号或者密码错误！", "错误", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
+    //存入登录信息到本地
+    public static void saveLoginInfo(Account account) {
 
+        if (propertiesUtil.get("account") == null) {
+            propertiesUtil.add("account", account.getAccount());
+            propertiesUtil.add("password", account.getPassword());
+        } else {
+            propertiesUtil.set("account", account.getAccount());
+            propertiesUtil.set("password", account.getPassword());
+        }
+    }
+
+    public static Student getStudent() {
+        return student;
+    }
 }

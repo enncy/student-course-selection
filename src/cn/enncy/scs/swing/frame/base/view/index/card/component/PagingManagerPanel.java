@@ -22,36 +22,31 @@ public class PagingManagerPanel extends ManagePanel {
     //页面数据数量
     private int dataCount = 5;
 
-    private JButton previousPageButton = new JButton("上一页");
-    private JButton nextPageButton = new JButton("下一页");
-    private JButton lastPageButton = new JButton("最后一页");
-    private JComboBox jComboBox = new JComboBox();
-    private List<JButton> pageListButton = new ArrayList<>();
+    private final JButton previousPageButton = new JButton("<");
+    private final JButton nextPageButton = new JButton(">");
+    private final JButton lastPageButton = new JButton("最后一页");
+    private final JComboBox jComboBox = new JComboBox();
+    private final List<JButton> pageListButton = new ArrayList<>();
 
 
     public PagingManagerPanel(Class baseObjectClass, BaseService baseService) {
         super(baseObjectClass, baseService);
         int size = this.getDataList().size();
         //根据数量调整页数
-        this.totalPage = size % dataCount > 0 ? (size / dataCount) + 1 : size / dataCount;
+        double page = (double) size / (double)dataCount;
+        this.totalPage = page == (size/dataCount)?(int)page:(int)page+1;
+
         //增加分页组件
-        System.out.println("size:"+size);
+
         JPanel headerPanel = this.getHeaderPanel();
 
         initPageDataCountSelector();
 
         headerPanel.add(previousPageButton);
-
-        for (int i=0;i<totalPage;i++){
-            JButton jButton = new JButton(String.valueOf(i));
-            int finalI = i;
-            jButton.addActionListener(e->{
-                this.updatePage(finalI);
-                this.updateDataList();
-            });
-            pageListButton.add(jButton);
-            headerPanel.add(jButton);
-        }
+        //添加页数 0 按钮
+        addPageButton(headerPanel, createPageButton(0));
+        //添加页数按钮
+        for (int i = 1; i < totalPage; addPageButton(headerPanel,createPageButton(i++)));
 
         headerPanel.add(nextPageButton);
         headerPanel.add(lastPageButton);
@@ -60,44 +55,44 @@ public class PagingManagerPanel extends ManagePanel {
         setButtonAction();
         updatePage(0);
     }
-    public void updatePage(int currentPage){
+
+    public void updatePage(int currentPage) {
         this.currentPage = currentPage;
         //选中指定的页面按钮
         for (JButton jButton : pageListButton) {
             jButton.setSelected(false);
         }
         pageListButton.get(currentPage).setSelected(true);
-        //设置按钮在到达限制范围时不能点击
-        previousPageButton.setEnabled(currentPage>0);
-        nextPageButton.setEnabled(currentPage<totalPage-1);
-        lastPageButton.setEnabled(currentPage!=totalPage-1);
+        //设置按钮在到达限制范围时可以点击
+        previousPageButton.setEnabled(currentPage > 0);
+        nextPageButton.setEnabled(currentPage < totalPage - 1 && totalPage>0);
+        lastPageButton.setEnabled(currentPage != totalPage - 1 &&  totalPage>0);
     }
-
 
 
     //设置按钮点击事件
-    public void setButtonAction(){
-        previousPageButton.addActionListener(e->{
-            this.updatePage(this.currentPage-1);
+    public void setButtonAction() {
+        previousPageButton.addActionListener(e -> {
+            this.updatePage(this.currentPage - 1);
             this.updateDataList();
         });
-        nextPageButton.addActionListener(e->{
-            this.updatePage(this.currentPage+1);
+        nextPageButton.addActionListener(e -> {
+            this.updatePage(this.currentPage + 1);
             this.updateDataList();
         });
-        lastPageButton.addActionListener(e->{
-            this.updatePage(this.totalPage-1);
+        lastPageButton.addActionListener(e -> {
+            this.updatePage(this.totalPage - 1);
             this.updateDataList();
         });
     }
-    
+
     /**
-     *  初始化分页数量选择器
-     *   
+     * 初始化分页数量选择器
+     *
      * @return: void
      */
-    public void initPageDataCountSelector(){
-        jComboBox.addItem(dataCount+"/页");
+    public void initPageDataCountSelector() {
+        jComboBox.addItem(dataCount + "/页");
         jComboBox.addItem("10/页");
         jComboBox.addItem("20/页");
         jComboBox.addItem("50/页");
@@ -112,9 +107,30 @@ public class PagingManagerPanel extends ManagePanel {
         jComboBox.setSelectedIndex(0);
     }
 
+    /**
+     *  创建分页页数按钮
+     *
+     * @param index  页数
+     * @return: javax.swing.JButton
+     */
+    public JButton createPageButton(int index){
+        JButton jButton = new JButton(String.valueOf(index));
+        jButton.addActionListener(e -> {
+            this.updatePage(index);
+            this.updateDataList();
+        });
+
+        return jButton;
+    }
+
+    public void addPageButton(JPanel headerPanel, JButton jButton){
+        pageListButton.add(jButton);
+        headerPanel.add(jButton);
+    }
+
     @Override
     public void updateDataList() {
-       this.setDataList(this.getBaseService().findByPages(currentPage*dataCount, dataCount));
-       this.updateTablePanel();
+        this.setDataList(this.getBaseService().findByPages(currentPage * dataCount, dataCount));
+        this.updateTablePanel();
     }
 }

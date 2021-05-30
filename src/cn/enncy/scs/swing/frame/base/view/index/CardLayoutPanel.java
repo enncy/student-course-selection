@@ -18,7 +18,7 @@ public class CardLayoutPanel extends JPanel {
     public static final int PANEL_WIDTH = 1024;
     public static final int PANEL_HEIGHT = 700;
 
-
+    private static final CardLayoutPanel CARD_LAYOUT_PANEL = new CardLayoutPanel();
     public CardLayoutPanel() {
 
         this.setBackground(new Color(255,255,255));
@@ -27,6 +27,10 @@ public class CardLayoutPanel extends JPanel {
         this.setLayout(cardLayout);
 
         this.setBackground(NiceColors.GHOST_WHITE);
+    }
+
+    public static CardLayoutPanel getInstance(){
+        return CARD_LAYOUT_PANEL;
     }
 
     public void showCard(String cardName){

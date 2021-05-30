@@ -1,6 +1,7 @@
 package cn.enncy.scs.swing.frame.base.view.index.card.component;
 
 
+import cn.enncy.reflect.ReflectUtils;
 import cn.enncy.scs.pojo.BaseObject;
 
 import javax.swing.*;
@@ -39,15 +40,19 @@ public class ValueModelForm extends JPanel {
             //new对象，如果已经有默认对象，则不用new
             target = defaultBaseObject == null ? (BaseObject) baseObjectClass.getConstructor().newInstance() : defaultBaseObject;
             for (Field declaredField : declaredFields) {
-                if (!declaredField.isAccessible()) {
-                    declaredField.setAccessible(true);
-                }
+
+                ReflectUtils.accessible(declaredField);
                 //双向数据绑定
                 ScsValueModel scsValueModel = new ScsValueModel(target, declaredField);
                 scsValueModels.add(scsValueModel);
                 //生成表单
                 this.add(scsValueModel.getjLabel());
-                this.add(scsValueModel.getjTextField());
+
+                if(scsValueModel.getjComboBox()==null){
+                    this.add(scsValueModel.getjTextField());
+                }else{
+                    this.add(scsValueModel.getjComboBox());
+                }
             }
         } catch (Exception e1) {
             e1.printStackTrace();

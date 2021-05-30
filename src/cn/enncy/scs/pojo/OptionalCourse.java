@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.service.GiveCoursesService;
+
 /**
  * //TODO
  * <br/>Created in 21:13 2021/4/18
@@ -9,54 +11,31 @@ package cn.enncy.scs.pojo;
  */
 public class OptionalCourse  extends BaseObject {
 
-    @Info("课程id")
-    private int course_id;
-    @Info("教师id")
-    private int teacher_id;
-    @Info("课程最大人数")
-    private int max_num;
+    @Info("授课id")
+    @ForeignInfo(pojo = GiveCourses.class,fieldName = "id" ,service = GiveCoursesService.class)
+    private int give_courses_id;
 
     public OptionalCourse() { }
 
-    public OptionalCourse(int course_id, int teacher_id, int max_num) {
-        this.course_id = course_id;
-        this.teacher_id = teacher_id;
-        this.max_num = max_num;
+    public OptionalCourse(int give_courses_id) {
+        this.give_courses_id = give_courses_id;
     }
 
-    public int getCourse_id() {
-        return course_id;
+    public int getGive_courses_id() {
+        return give_courses_id;
     }
 
-    public void setCourse_id(int course_id) {
-        this.course_id = course_id;
-    }
-
-    public int getTeacher_id() {
-        return teacher_id;
-    }
-
-    public void setTeacher_id(int teacher_id) {
-        this.teacher_id = teacher_id;
-    }
-
-    public int getMax_num() {
-        return max_num;
-    }
-
-    public void setMax_num(int max_num) {
-        this.max_num = max_num;
+    public void setGive_courses_id(int give_courses_id) {
+        this.give_courses_id = give_courses_id;
     }
 
     @Override
     public String toString() {
         return "OptionalCourse{" +
-                "course_id=" + course_id +
-                ", teacher_id=" + teacher_id +
-                ", max_num=" + max_num +
-                ", id=" + id +
+                "id=" + id +
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
+                ", give_courses_id=" + give_courses_id +
                 '}';
     }
 }

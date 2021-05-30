@@ -3,6 +3,7 @@ package cn.enncy.scs.mapper;
 
 import cn.enncy.mybatis.annotation.Mapper;
 import cn.enncy.mybatis.annotation.SQL;
+import cn.enncy.scs.pojo.AutoCourseSelection;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.swing.constant.ScsTableName;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @author: enncy
  */
 
-@Mapper(tableName = ScsTableName.AUTO_COURSES_SELECTIONS,resultType = AutoCourseSelectionMapper.class)
+@Mapper(tableName = ScsTableName.AUTO_COURSES_SELECTIONS,resultType = AutoCourseSelection.class)
 public interface AutoCourseSelectionMapper extends BaseMapper{
     @Override
     @SQL( "SELECT * FROM #{TABLE_NAME};")

@@ -17,6 +17,7 @@ public class ScsTableName {
     public static final String MAJORS = "majors";
     public static final String MANAGERS = "managers";
     public static final String OPTIONAL_COURSES = "optional_courses";
+    public static final String GIVE_COURSES = "give_courses";
     public static final String SETTINGS = "settings";
     public static final String STUDENTS = "students";
     public static final String TEACHERS = "teachers";

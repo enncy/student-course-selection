@@ -8,10 +8,13 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 
-public class Manager extends BaseObject{
+public class Manager extends BaseObject implements Account{
 
+    @Info("管理员名")
     private String name;
+    @Info("账号")
     private String account;
+    @Info("密码")
     private String pwd;
 
     public Manager() { }
@@ -30,8 +33,14 @@ public class Manager extends BaseObject{
         this.name = name;
     }
 
+    @Override
     public String getAccount() {
         return account;
+    }
+
+    @Override
+    public String getPassword() {
+        return pwd;
     }
 
     public void setAccount(String account) {

@@ -2,9 +2,10 @@ package cn.enncy.scs.swing.component.dialog;
 
 
 import cn.enncy.scs.swing.component.panel.DropShadowPanel;
-import cn.enncy.scs.swing.component.title.TitlePanel;
+import cn.enncy.scs.swing.component.title.DragPanel;
 import cn.enncy.scs.swing.frame.base.BaseFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,7 +15,7 @@ import java.awt.*;
  * @author: enncy
  */
 public class ScsDialog extends BaseFrame {
-    private TitlePanel titlePanel = new TitlePanel(this);
+    private DragPanel dragPanel = new DragPanel(this);
     public ScsDialog(String title) {
         super(400,300,400,300);
 
@@ -22,10 +23,10 @@ public class ScsDialog extends BaseFrame {
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
 
-        DropShadowPanel dropShadowPanel = new DropShadowPanel(8);
+        DropShadowPanel dropShadowPanel = new DropShadowPanel(15);
 
-        titlePanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle(title);
-        dropShadowPanel.add(titlePanel);
+        dragPanel.getTitleBarPanel().getTitleBarLeftPanel().setTitle(title);
+        dropShadowPanel.add(dragPanel);
         this.add(dropShadowPanel);
         this.setUndecorated(true);
         this.setBackground(new Color(0,0,0,0));
@@ -34,7 +35,11 @@ public class ScsDialog extends BaseFrame {
 
     }
 
-    public TitlePanel getTitlePanel() {
-        return titlePanel;
+    public JPanel getContainer(){
+        return dragPanel.getContainer();
+    }
+
+    public DragPanel getDragPanel() {
+        return dragPanel;
     }
 }

@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.service.CourseSelectionService;
+
 /**
  * //TODO
  * <br/>Created in 21:19 2021/4/18
@@ -8,6 +10,9 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 public class CancelSelection  extends BaseObject{
+
+    @Info("选课id")
+    @ForeignInfo(pojo = CourseSelection.class, fieldName = "id",service = CourseSelectionService.class)
     private int selection_id;
 
     public CancelSelection() { }

@@ -7,6 +7,7 @@ import cn.enncy.scs.swing.component.panel.ScsWhitePanel;
 import cn.enncy.scs.swing.component.scroll.ScsScrollPanel;
 import cn.enncy.scs.swing.component.table.ScsTableFactory;
 import cn.enncy.scs.swing.constant.NiceColors;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.dialog.ManagerInsertDialog;
 import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
 
 import javax.swing.*;
@@ -17,12 +18,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
- * //    信息管理控件
+ * //    业务组件 信息管理控件
  * <br/>Created in 13:49 2021/4/27
  *
  * @author: enncy
  */
-public abstract class ManagePanel extends ScsWhitePanel {
+public abstract class ManagePanel extends ServiceComponent {
 
     //表格容器
     private JPanel tablePanel;
@@ -32,17 +33,14 @@ public abstract class ManagePanel extends ScsWhitePanel {
     private JTable jTable;
     //表格数据
     private List dataList;
-    //目标类
-    private  Class baseObjectClass;
-    //业务
-    private BaseService baseService;
+
 
     //滚动面板
     private  ScsScrollPanel scsScrollPanel;
 
     public ManagePanel(Class baseObjectClass, BaseService baseService) {
-        this.baseService = baseService;
-        this.baseObjectClass = baseObjectClass;
+        super(baseObjectClass,baseService);
+
         this.setLayout(new BorderLayout());
         //初始化数据
         initDataList();
@@ -59,7 +57,7 @@ public abstract class ManagePanel extends ScsWhitePanel {
     }
     //初始化数据
     public void initDataList(){
-        this.dataList = baseService.findAll() ;
+        this.dataList = getBaseService().findAll() ;
     }
 
     //初始化头部面板
@@ -74,7 +72,7 @@ public abstract class ManagePanel extends ScsWhitePanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new ManageDialog("添加信息", managePanel,null,ManageType.INSERT);
+                    new ManagerInsertDialog("添加信息", managePanel,null);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException noSuchMethodException) {
                     noSuchMethodException.printStackTrace();
                 }
@@ -104,6 +102,7 @@ public abstract class ManagePanel extends ScsWhitePanel {
     }
 
     //更新數據
+    @Override
     public void updateTablePanel(){
         JTable jTableWithOperate = ScsTableFactory.createJTableWithOperate(dataList, this);
         tablePanel.removeAll();
@@ -114,20 +113,13 @@ public abstract class ManagePanel extends ScsWhitePanel {
         this.jTable = jTableWithOperate;
     }
 
+    @Override
     public void updateDataList(){
-        this.dataList = baseService.findAll();
+        this.dataList = getBaseService().findAll();
         //更新表格面板
         this.updateTablePanel();
     }
 
-
-    public Class getBaseObjectClass() {
-        return baseObjectClass;
-    }
-
-    public void setBaseObjectClass(Class baseObjectClass) {
-        this.baseObjectClass = baseObjectClass;
-    }
 
     public JPanel getTablePanel() {
         return tablePanel;
@@ -161,11 +153,4 @@ public abstract class ManagePanel extends ScsWhitePanel {
         this.dataList = dataList;
     }
 
-    public BaseService getBaseService() {
-        return baseService;
-    }
-
-    public void setBaseService(BaseService baseService) {
-        this.baseService = baseService;
-    }
 }

@@ -67,10 +67,4 @@ public class CardPanel  extends AdaptivePanel {
     }
 
 
-    @Override
-    public Component add(Component comp) {
-        setEmpty(container);
-        return container.add(comp);
-    }
-
 }

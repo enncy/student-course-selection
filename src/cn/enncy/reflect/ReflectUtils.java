@@ -26,9 +26,7 @@ public class ReflectUtils {
 
         for (Field f : field) {
             try {
-                if (!f.isAccessible()) {
-                    f.setAccessible(true);
-                }
+                ReflectUtils.accessible(f);
                 map.put(f.getName(), f.get(object));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -46,6 +44,14 @@ public class ReflectUtils {
      */
     public static Field[] getObjectFields(Class clazz) {
         return getObjectFields(clazz, false);
+    }
+
+    public static Field[] getObjectFields(Class... clazz) {
+        List<Field> list = new ArrayList<>();
+        for (Class aClass : clazz) {
+            list.addAll(Arrays.asList(getObjectFields(aClass, false)));
+        }
+        return list.toArray(new Field[0]);
     }
 
     /**
@@ -79,15 +85,30 @@ public class ReflectUtils {
         return list.toArray(new Field[]{});
     }
 
+
+    public static Field getObjectField(Class clazz,String fieldName){
+        List<Field> list = new LinkedList<>(Arrays.asList(clazz.getDeclaredFields()));
+
+        if (clazz.getSuperclass().equals(BaseObject.class)) {
+            list.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
+        }
+        for (Field field : list) {
+            if(fieldName.equals(field.getName())){
+                return field;
+            }
+        }
+        return null;
+    }
+
     /**
      * 获取多个对象中的 key - value 键值对的集合
      *
      * @param objects 对象的数组，将全部属性一并加入
      * @return: java.util.Map<java.lang.String, java.lang.Object>
      */
-    public static Map<String, Object> getObjectsValueMap(BaseObject... objects) {
+    public static Map<String, Object> getObjectsValueMap(Object... objects) {
         Map<String, Object> map = new HashMap<>();
-        for (BaseObject object : objects) {
+        for (Object object : objects) {
             map.putAll(getObjectValueMap(object));
         }
         return map;
@@ -97,7 +118,7 @@ public class ReflectUtils {
     /**
      * 将对象的值转换成数组
      *
-     * @param object    对象
+     * @param object 对象
      * @return: java.lang.Object[]
      */
     public static Object[] objectValueToArray(Object object) {
@@ -106,9 +127,7 @@ public class ReflectUtils {
         Object[] valueArray = new Object[declaredFields.length];
         for (int i = 0; i < declaredFields.length; i++) {
             Field field = declaredFields[i];
-            if (!field.isAccessible()) {
-                field.setAccessible(true);
-            }
+            ReflectUtils.accessible(field);
             try {
                 valueArray[i] = field.get(object);
             } catch (IllegalAccessException e) {
@@ -117,6 +136,40 @@ public class ReflectUtils {
             }
         }
         return valueArray;
+    }
+
+    /**
+     * 将数组的值赋值给对象
+     *
+     * @param values 数组
+     * @param target 目标对象
+     * @return: java.lang.Object[]
+     */
+    public static Object valueArrayToObject(Object[] values, Object target) throws Exception {
+        Field[] declaredFields = ReflectUtils.getObjectFields(target.getClass());
+        System.out.println(Arrays.toString(declaredFields));
+        if (values.length != declaredFields.length) {
+            throw new Exception("values length is not match target object fields length");
+        }
+        for (int i = 0; i < declaredFields.length; i++) {
+            Field declaredField = declaredFields[i];
+
+            ReflectUtils.accessible(declaredField);
+            declaredField.set(target, values[i]);
+        }
+        return target;
+    }
+
+    /**
+     * 设置属性可读写
+     *
+     * @param field 属性
+     * @return: void
+     */
+    public static void accessible(Field field) {
+        if (!field.isAccessible()) {
+            field.setAccessible(true);
+        }
     }
 
 }

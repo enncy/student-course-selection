@@ -1,6 +1,7 @@
 package cn.enncy.scs.mapper;
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.Student;
@@ -23,5 +24,6 @@ public interface StudentMapper extends BaseMapper{
     @SQL( "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
 
-
+    @SQL( "SELECT * FROM #{TABLE_NAME} WHERE number='#{number}';")
+    Student findByNumber(@Param("number") String number);
 }

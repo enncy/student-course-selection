@@ -1,13 +1,15 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.service.ClassService;
+
 /**
  * //TODO
  * <br/>Created in 20:14 2021/4/18
  *
  * @author: enncy
  */
-public class Student extends BaseObject {
+public class Student extends BaseObject implements Account{
 
     @Info("学生名")
     private String name;
@@ -15,7 +17,9 @@ public class Student extends BaseObject {
     private String number;
     @Info("登录密码")
     private String pwd;
-    @Info("课程id")
+
+    @Info("班级id")
+    @ForeignInfo(pojo = Class.class,fieldName = "id" ,service = ClassService.class)
     private int class_id;
 
     public Student() { }
@@ -72,5 +76,15 @@ public class Student extends BaseObject {
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
                 '}';
+    }
+
+    @Override
+    public String getAccount() {
+        return number;
+    }
+
+    @Override
+    public String getPassword() {
+        return pwd;
     }
 }

@@ -2,8 +2,9 @@ package cn.enncy.scs.swing.frame.base.view.index.card.information;
 
 
 import cn.enncy.scs.pojo.Student;
+import cn.enncy.scs.service.ServiceFactory;
 import cn.enncy.scs.service.StudentService;
-import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.PagingManagerPanel;
 
 /**
  * //TODO
@@ -11,10 +12,10 @@ import cn.enncy.scs.swing.frame.base.view.index.card.component.ManagePanel;
  *
  * @author: enncy
  */
-public class StudentsManagePanel extends ManagePanel {
+public class StudentsManagePanel extends PagingManagerPanel {
 
 
     public StudentsManagePanel( ) {
-        super(Student.class, new StudentService());
+        super(Student.class,  ServiceFactory.getService(StudentService.class)  );
     }
 }

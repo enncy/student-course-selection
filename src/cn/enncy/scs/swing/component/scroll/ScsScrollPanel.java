@@ -21,4 +21,7 @@ public class ScsScrollPanel extends  JScrollPane{
         this.getHorizontalScrollBar().setUnitIncrement(20);
     }
 
+    public ScsScrollPanel() {
+
+    }
 }

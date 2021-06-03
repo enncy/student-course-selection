@@ -2,6 +2,7 @@ package cn.enncy.reflect;
 
 
 import cn.enncy.scs.pojo.BaseObject;
+import cn.enncy.scs.pojo.annotation.TimeFormat;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -43,13 +44,13 @@ public class ReflectUtils {
      * @return: java.lang.reflect.Field[]
      */
     public static Field[] getObjectFields(Class clazz) {
-        return getObjectFields(clazz, false);
+        return getObjectFields(clazz, true);
     }
 
     public static Field[] getObjectFields(Class... clazz) {
         List<Field> list = new ArrayList<>();
         for (Class aClass : clazz) {
-            list.addAll(Arrays.asList(getObjectFields(aClass, false)));
+            list.addAll(Arrays.asList(getObjectFields(aClass, true)));
         }
         return list.toArray(new Field[0]);
     }
@@ -77,23 +78,22 @@ public class ReflectUtils {
         }
         list.remove(id);
         //是否显示时间
-        if (showTimeDetail) {
-            list.removeIf(field -> "update_time".equals(field.getName()));
-            list.removeIf(field -> "create_time".equals(field.getName()));
+        if (!showTimeDetail) {
+            list.removeIf(field -> field.isAnnotationPresent(TimeFormat.class));
         }
         ((LinkedList<Field>) list).addFirst(id);
         return list.toArray(new Field[]{});
     }
 
 
-    public static Field getObjectField(Class clazz,String fieldName){
+    public static Field getObjectField(Class clazz, String fieldName) {
         List<Field> list = new LinkedList<>(Arrays.asList(clazz.getDeclaredFields()));
 
         if (clazz.getSuperclass().equals(BaseObject.class)) {
             list.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         }
         for (Field field : list) {
-            if(fieldName.equals(field.getName())){
+            if (fieldName.equals(field.getName())) {
                 return field;
             }
         }
@@ -118,10 +118,11 @@ public class ReflectUtils {
     /**
      * 将对象的值转换成数组
      *
-     * @param object 对象
+     * @param object    对象
+     * @param reflectDataRender 值渲染器
      * @return: java.lang.Object[]
      */
-    public static Object[] objectValueToArray(Object object) {
+    public static Object[] objectValueToArray(Object object, ReflectDataRender reflectDataRender) {
         Field[] declaredFields = getObjectFields(object.getClass());
 
         Object[] valueArray = new Object[declaredFields.length];
@@ -129,7 +130,7 @@ public class ReflectUtils {
             Field field = declaredFields[i];
             ReflectUtils.accessible(field);
             try {
-                valueArray[i] = field.get(object);
+                valueArray[i] = reflectDataRender.render(field,field.get(object));
             } catch (IllegalAccessException e) {
                 valueArray[i] = "null";
                 e.printStackTrace();
@@ -137,6 +138,11 @@ public class ReflectUtils {
         }
         return valueArray;
     }
+    public static Object[] objectValueToArray(Object object) {
+        return objectValueToArray(object, (field,data) -> data);
+    }
+
+
 
     /**
      * 将数组的值赋值给对象
@@ -147,7 +153,7 @@ public class ReflectUtils {
      */
     public static Object valueArrayToObject(Object[] values, Object target) throws Exception {
         Field[] declaredFields = ReflectUtils.getObjectFields(target.getClass());
-        System.out.println(Arrays.toString(declaredFields));
+
         if (values.length != declaredFields.length) {
             throw new Exception("values length is not match target object fields length");
         }

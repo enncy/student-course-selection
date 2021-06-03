@@ -5,8 +5,8 @@ import cn.enncy.mybatis.ResultSetHandler;
 import cn.enncy.reflect.ReflectUtils;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.BaseObjectUtils;
-import cn.enncy.scs.pojo.ForeignInfo;
-import cn.enncy.scs.pojo.Info;
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,6 +14,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -83,10 +84,12 @@ public class ScsValueModel {
     private void initJComboBox(Field field) throws IllegalAccessException, NoSuchFieldException {
         this.jComboBox = new JComboBox();
 
-        Map<Integer, Object> foreignInfos = BaseObjectUtils.getForeignInfo(field);
+        Map<Integer, String> foreignInfos = BaseObjectUtils.getForeignInfos(field);
+        Map<Integer, String> itemsMap = new LinkedHashMap<>();
         assert foreignInfos != null;
-        for (Map.Entry<Integer, Object> item : foreignInfos.entrySet()) {
+        for (Map.Entry<Integer, String> item : foreignInfos.entrySet()) {
             String str = item.getKey() + ":(" + item.getValue() + ")";
+            itemsMap.put(item.getKey(), str);
             jComboBox.addItem(str);
         }
         if (foreignInfos.isEmpty()) {
@@ -95,11 +98,11 @@ public class ScsValueModel {
 
         //如果有初始值，则绑定初始值,否则默认绑定第一个，
         if(baseObject.getId()!=0 && !foreignInfos.isEmpty()){
-            Object defaultFieldValue = getDefaultFieldValue();
+            Integer id = (Integer) getDefaultFieldValue();
             //设置 默认值
-            Object defaultItem = foreignInfos.get(defaultFieldValue);
+            Object defaultItem = itemsMap.get(id);
             jComboBox.setSelectedItem(defaultItem);
-            bind(String.valueOf(defaultFieldValue));
+            bind(String.valueOf(id));
         }else if(!foreignInfos.isEmpty()){
 
             String id = String.valueOf(jComboBox.getItemAt(0)).split(":")[0];

@@ -17,8 +17,11 @@ import java.util.List;
  */
 
 @Mapper(tableName = ScsTableName.AUTO_COURSES_SELECTIONS,resultType = AutoCourseSelection.class)
-public interface AutoCourseSelectionMapper extends BaseMapper{
+public interface AutoCourseSelectionMapper extends SelectionMapper{
     @Override
     @SQL( "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
+
+    @SQL("SELECT * FROM #{TABLE_NAME} ORDER BY update_time ASC;")
+    List<BaseObject> orderByUpdateTime();
 }

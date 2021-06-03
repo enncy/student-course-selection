@@ -1,13 +1,15 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.Info;
+
 /**
  * //TODO
  * <br/>Created in 21:07 2021/4/18
  *
  * @author: enncy
  */
-public class Teacher extends BaseObject{
+public class Teacher extends BaseObject  {
     @Info("教师名")
     private String name;
 
@@ -59,4 +61,5 @@ public class Teacher extends BaseObject{
                 ", description='" + description + '\'' +
                 '}';
     }
+
 }

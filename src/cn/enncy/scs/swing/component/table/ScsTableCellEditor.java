@@ -63,9 +63,6 @@ public class ScsTableCellEditor extends TableCellEditorImpl{
             if(i==JOptionPane.YES_OPTION){
                 //删除数据
                 serviceComponent.getBaseService().deleteById(((BaseObject)data.get(selectedRow)).getId());
-                //更新表格面板
-                serviceComponent.updateDataList();
-                serviceComponent.updateTablePanel();
             }
         });
 

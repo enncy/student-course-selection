@@ -1,8 +1,9 @@
 package cn.enncy.scs.pojo;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import cn.enncy.scs.pojo.annotation.Info;
+import cn.enncy.scs.pojo.annotation.TimeFormat;
+
 import java.util.Objects;
 
 /**
@@ -16,8 +17,11 @@ public class BaseObject {
 
     public int id;
 
+    @TimeFormat
     @Info("创建时间")
     public long create_time;
+
+    @TimeFormat
     @Info("更新时间")
     public long update_time;
 
@@ -50,13 +54,14 @@ public class BaseObject {
         this.update_time = update_time;
     }
 
-    public String getFormatCreateTime(){
-        return SimpleDateFormat.getInstance().format(new Date(create_time));
+    public String getFormatCreateTime() {
+        return BaseObjectUtils.getFormatTime(create_time);
     }
-    public String getFormatUpdateTime(){
 
-        return SimpleDateFormat.getInstance().format(new Date(update_time));
+    public String getFormatUpdateTime() {
+        return BaseObjectUtils.getFormatTime(update_time);
     }
+
 
     @Override
     public String toString() {

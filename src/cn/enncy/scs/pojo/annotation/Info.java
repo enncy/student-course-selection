@@ -1,4 +1,4 @@
-package cn.enncy.scs.pojo;
+package cn.enncy.scs.pojo.annotation;
 
 
 import java.lang.annotation.*;

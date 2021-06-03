@@ -34,7 +34,8 @@ public class ScsTable extends JTable {
 
     @Override
     public boolean isCellSelected(int row, int column) {
-        if("操作".equals(columnNames[column])){
+        String columnName = this.getColumnName(column);
+        if("操作".equals(columnName)){
             return true;
         }
         return false;
@@ -42,9 +43,11 @@ public class ScsTable extends JTable {
 
     @Override
     public boolean isCellEditable(int row, int column) {
-        if("操作".equals(columnNames[column])){
+        String columnName = this.getColumnName(column);
+        if("操作".equals(columnName)){
             return true;
         }
+
         return false;
     }
 

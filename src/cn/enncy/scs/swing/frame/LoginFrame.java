@@ -1,11 +1,11 @@
 package cn.enncy.scs.swing.frame;
 
 
-import cn.enncy.scs.pojo.Account;
+import cn.enncy.scs.pojo.annotation.Account;
 import cn.enncy.scs.pojo.Manager;
 import cn.enncy.scs.pojo.Student;
 import cn.enncy.scs.service.ManagerService;
-import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.factory.ServiceFactory;
 import cn.enncy.scs.service.StudentService;
 import cn.enncy.scs.swing.component.dialog.ScsDialog;
 import cn.enncy.scs.swing.constant.NiceColors;

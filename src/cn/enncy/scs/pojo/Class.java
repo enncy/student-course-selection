@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
 import cn.enncy.scs.service.MajorService;
 
 /**
@@ -15,7 +17,7 @@ public class Class extends BaseObject {
     private String name;
 
     @Info("专业id")
-    @ForeignInfo(pojo = Major.class,fieldName = "id",service = MajorService.class)
+    @ForeignInfo(fieldName = "name" ,service = MajorService.class)
     private int major_id;
 
     public Class() {}

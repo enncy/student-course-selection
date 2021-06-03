@@ -31,8 +31,9 @@ public class ManagerInsertDialog extends ManageDialog{
                     return;
                 }
                 //插入数据
-                int insert = getBaseService().insert(target);
-                checkSqlExecute(insert);
+                 getBaseService().insert(target);
+
+                 this.dispose();
             } else {
                 ScsAlert.error("添加数据失败！数据对象为空！");
             }

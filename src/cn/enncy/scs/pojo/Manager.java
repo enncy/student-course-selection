@@ -1,6 +1,9 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.Account;
+import cn.enncy.scs.pojo.annotation.Info;
+
 /**
  * //TODO
  * <br/>Created in 14:34 2021/4/14
@@ -8,7 +11,7 @@ package cn.enncy.scs.pojo;
  * @author: enncy
  */
 
-public class Manager extends BaseObject implements Account{
+public class Manager extends BaseObject implements Account {
 
     @Info("管理员名")
     private String name;

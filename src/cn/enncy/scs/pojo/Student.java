@@ -1,6 +1,9 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.Account;
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
 import cn.enncy.scs.service.ClassService;
 
 /**
@@ -9,7 +12,7 @@ import cn.enncy.scs.service.ClassService;
  *
  * @author: enncy
  */
-public class Student extends BaseObject implements Account{
+public class Student extends BaseObject implements Account {
 
     @Info("学生名")
     private String name;
@@ -19,7 +22,7 @@ public class Student extends BaseObject implements Account{
     private String pwd;
 
     @Info("班级id")
-    @ForeignInfo(pojo = Class.class,fieldName = "id" ,service = ClassService.class)
+    @ForeignInfo(fieldName = "name"  ,service = ClassService.class)
     private int class_id;
 
     public Student() { }
@@ -87,4 +90,5 @@ public class Student extends BaseObject implements Account{
     public String getPassword() {
         return pwd;
     }
+
 }

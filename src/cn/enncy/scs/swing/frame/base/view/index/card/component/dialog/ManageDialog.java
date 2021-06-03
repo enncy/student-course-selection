@@ -3,7 +3,6 @@ package cn.enncy.scs.swing.frame.base.view.index.card.component.dialog;
 
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.service.BaseService;
-import cn.enncy.scs.swing.component.dialog.ScsAlert;
 import cn.enncy.scs.swing.component.dialog.ScsDialog;
 import cn.enncy.scs.swing.frame.base.view.index.card.component.ServiceComponent;
 import cn.enncy.scs.swing.frame.base.view.index.card.component.ValueModelForm;
@@ -62,22 +61,6 @@ public class ManageDialog extends ScsDialog {
         this.setVisible(true);
     }
 
-    /**
-     * 检测是否执行成功
-     *
-     * @param executeResult
-     * @return: void
-     */
-    public void checkSqlExecute(int executeResult) {
-        if (executeResult == 0) {
-            ScsAlert.error("添加数据失败！请检查是否有重复数据！");
-        } else {
-            //更新表格面板
-            serviceComponent.updateDataList();
-            serviceComponent.updateTablePanel();
-            this.dispose();
-        }
-    }
 
     public BaseService getBaseService() {
         return baseService;

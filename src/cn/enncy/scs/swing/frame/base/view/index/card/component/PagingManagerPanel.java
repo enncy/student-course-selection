@@ -1,7 +1,9 @@
 package cn.enncy.scs.swing.frame.base.view.index.card.component;
 
 
+import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.service.BaseService;
+import cn.enncy.scs.swing.component.table.ScsTableFactory;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -13,14 +15,14 @@ import java.util.List;
  *
  * @author: enncy
  */
-public class PagingManagerPanel extends ManagePanel {
+public class PagingManagerPanel extends ServiceComponent {
 
     //当前页
     private int currentPage = 0;
     //总页数
-    private int totalPage;
+    private int totalPage = 0;
     //页面数据数量
-    private int dataCount = 5;
+    private int dataCount = 10;
 
     private final JButton previousPageButton = new JButton("<");
     private final JButton nextPageButton = new JButton(">");
@@ -29,16 +31,20 @@ public class PagingManagerPanel extends ManagePanel {
     private final List<JButton> pageListButton = new ArrayList<>();
 
 
-    public PagingManagerPanel(Class baseObjectClass, BaseService baseService) {
+    public PagingManagerPanel(Class<? extends BaseObject> baseObjectClass, BaseService baseService) {
         super(baseObjectClass, baseService);
+
         int size = this.getDataList().size();
         //根据数量调整页数
-        double page = (double) size / (double)dataCount;
-        this.totalPage = page == (size/dataCount)?(int)page:(int)page+1;
+        double page = (double) size / (double) dataCount;
+        this.totalPage = page == (size / dataCount) ? (int) page : (int) page + 1;
+
+        //调动父组件，通知父组件更新界面
+        super.init();
 
         //增加分页组件
 
-        JPanel headerPanel = this.getHeaderPanel();
+        JPanel headerPanel = super.getHeaderPanel();
 
         initPageDataCountSelector();
 
@@ -46,7 +52,7 @@ public class PagingManagerPanel extends ManagePanel {
         //添加页数 0 按钮
         addPageButton(headerPanel, createPageButton(0));
         //添加页数按钮
-        for (int i = 1; i < totalPage; addPageButton(headerPanel,createPageButton(i++)));
+        for (int i = 1; i < totalPage; addPageButton(headerPanel, createPageButton(i++))) ;
 
         headerPanel.add(nextPageButton);
         headerPanel.add(lastPageButton);
@@ -54,6 +60,31 @@ public class PagingManagerPanel extends ManagePanel {
 
         setButtonAction();
         updatePage(0);
+
+    }
+
+    public List<BaseObject> createDataList(int skip, int limit) {
+        return this.getBaseService().findByPages(skip, limit);
+    }
+
+    @Override
+    public List<BaseObject> createDataList() {
+        if (getDataList() == null) {
+            return this.getBaseService().findAll();
+        } else {
+            return createDataList(currentPage * dataCount, dataCount);
+        }
+
+    }
+
+    @Override
+    public void initHeadPanel(JPanel headerPanel) {
+        headerPanel.add(new InsertInfomationButton(this));
+    }
+
+    @Override
+    public JTable createTable() {
+        return ScsTableFactory.createJTableWithOperate(getDataList(), this);
     }
 
     public void updatePage(int currentPage) {
@@ -65,8 +96,8 @@ public class PagingManagerPanel extends ManagePanel {
         pageListButton.get(currentPage).setSelected(true);
         //设置按钮在到达限制范围时可以点击
         previousPageButton.setEnabled(currentPage > 0);
-        nextPageButton.setEnabled(currentPage < totalPage - 1 && totalPage>0);
-        lastPageButton.setEnabled(currentPage != totalPage - 1 &&  totalPage>0);
+        nextPageButton.setEnabled(currentPage < totalPage - 1 && totalPage > 0);
+        lastPageButton.setEnabled(currentPage != totalPage - 1 && totalPage > 0);
     }
 
 
@@ -93,7 +124,6 @@ public class PagingManagerPanel extends ManagePanel {
      */
     public void initPageDataCountSelector() {
         jComboBox.addItem(dataCount + "/页");
-        jComboBox.addItem("10/页");
         jComboBox.addItem("20/页");
         jComboBox.addItem("50/页");
         jComboBox.addItem("100/页");
@@ -108,12 +138,12 @@ public class PagingManagerPanel extends ManagePanel {
     }
 
     /**
-     *  创建分页页数按钮
+     * 创建分页页数按钮
      *
-     * @param index  页数
+     * @param index 页数
      * @return: javax.swing.JButton
      */
-    public JButton createPageButton(int index){
+    public JButton createPageButton(int index) {
         JButton jButton = new JButton(String.valueOf(index));
         jButton.addActionListener(e -> {
             this.updatePage(index);
@@ -123,14 +153,39 @@ public class PagingManagerPanel extends ManagePanel {
         return jButton;
     }
 
-    public void addPageButton(JPanel headerPanel, JButton jButton){
+    public void addPageButton(JPanel headerPanel, JButton jButton) {
         pageListButton.add(jButton);
         headerPanel.add(jButton);
     }
 
     @Override
     public void updateDataList() {
-        this.setDataList(this.getBaseService().findByPages(currentPage * dataCount, dataCount));
+        System.out.println("updateDataList");
+        this.setDataList(createDataList());
         this.updateTablePanel();
+    }
+
+    public int getCurrentPage() {
+        return this.currentPage;
+    }
+
+    public int getTotalPage() {
+        return this.totalPage;
+    }
+
+    public int getDataCount() {
+        return this.dataCount;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public void setDataCount(int dataCount) {
+        this.dataCount = dataCount;
     }
 }

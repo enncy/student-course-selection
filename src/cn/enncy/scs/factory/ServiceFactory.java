@@ -1,5 +1,7 @@
-package cn.enncy.scs.service;
+package cn.enncy.scs.factory;
 
+
+import cn.enncy.scs.service.BaseService;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,10 @@
 package cn.enncy.scs.pojo;
 
 
-import cn.enncy.scs.service.CourseSelectionService;
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
+import cn.enncy.scs.service.GiveCoursesService;
+import cn.enncy.scs.service.StudentService;
 
 /**
  * //TODO
@@ -11,31 +14,46 @@ import cn.enncy.scs.service.CourseSelectionService;
  */
 public class CancelSelection  extends BaseObject{
 
-    @Info("选课id")
-    @ForeignInfo(pojo = CourseSelection.class, fieldName = "id",service = CourseSelectionService.class)
-    private int selection_id;
+
+    @Info("学生id")
+    @ForeignInfo(fieldName = "name" ,service = StudentService.class)
+    private int student_id;
+
+    @Info("授课id")
+    @ForeignInfo(fieldName = "course_id,teacher_id"  ,service = GiveCoursesService.class)
+    private int give_courses_id;
 
     public CancelSelection() { }
 
-    public CancelSelection(int selection_id) {
-        this.selection_id = selection_id;
+    public CancelSelection(int student_id, int give_courses_id) {
+        this.student_id = student_id;
+        this.give_courses_id = give_courses_id;
     }
 
-    public int getSelection_id() {
-        return selection_id;
+    public int getStudent_id() {
+        return student_id;
     }
 
-    public void setSelection_id(int selection_id) {
-        this.selection_id = selection_id;
+    public void setStudent_id(int student_id) {
+        this.student_id = student_id;
+    }
+
+    public int getGive_courses_id() {
+        return give_courses_id;
+    }
+
+    public void setGive_courses_id(int give_courses_id) {
+        this.give_courses_id = give_courses_id;
     }
 
     @Override
     public String toString() {
         return "CancelSelection{" +
-                "selection_id=" + selection_id +
-                ", id=" + id +
+                "id=" + id +
                 ", create_time=" + create_time +
                 ", update_time=" + update_time +
+                ", student_id=" + student_id +
+                ", give_courses_id=" + give_courses_id +
                 '}';
     }
 }

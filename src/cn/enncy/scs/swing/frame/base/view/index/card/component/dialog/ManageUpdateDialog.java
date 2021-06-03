@@ -13,25 +13,23 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author: enncy
  */
-public class ManageUpdateDialog  extends ManageDialog{
+public class ManageUpdateDialog extends ManageDialog {
 
 
     public ManageUpdateDialog(String title, ServiceComponent serviceComponent, BaseObject defaultBaseObject) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         super(title, serviceComponent, defaultBaseObject);
         BaseObject target = getValueModelForm().getTarget();
 
-        getCancelButton().addActionListener(e->{
-            this.dispose();
-        });
+        getCancelButton().addActionListener(e -> this.dispose());
 
-        getConfirmButton().addActionListener(e->{
+        getConfirmButton().addActionListener(e -> {
             if (target != null) {
                 if (!getValueModelForm().isAllValid()) {
                     ScsAlert.error("字段不能为空！");
                     return;
                 }
-                int update = getBaseService().update(target);
-                checkSqlExecute(update);
+                getBaseService().update(target);
+                this.dispose();
             } else {
                 ScsAlert.error("添加数据失败！数据对象为空！");
             }

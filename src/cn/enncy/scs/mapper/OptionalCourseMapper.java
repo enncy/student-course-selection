@@ -2,6 +2,7 @@ package cn.enncy.scs.mapper;
 
 
 import cn.enncy.mybatis.annotation.Mapper;
+import cn.enncy.mybatis.annotation.Param;
 import cn.enncy.mybatis.annotation.SQL;
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.OptionalCourse;
@@ -21,4 +22,7 @@ public interface OptionalCourseMapper extends BaseMapper{
     @Override
     @SQL( "SELECT * FROM #{TABLE_NAME};")
     List<BaseObject> findAll();
+
+    @SQL(value = "SELECT * FROM #{TABLE_NAME} WHERE  give_courses_id=#{give_courses_id};")
+    BaseObject findByGiveCoursesId(@Param("give_courses_id") int give_courses_id);
 }

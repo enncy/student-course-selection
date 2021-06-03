@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * //TODO
+ * //TODO   侧边栏
  * <br/>Created in 18:23 2021/4/21
  *
  * @author: enncy
@@ -62,6 +62,7 @@ public class SidePanel extends JPanel {
             scsIconLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    //点击
                     clickScsIconLabel(scsIconLabel);
                 }
             });
@@ -71,8 +72,6 @@ public class SidePanel extends JPanel {
                     scsLabelSelectedListener.onSelected(scsIconLabel);
                 }
             });
-
-
             this.add(scsIconLabel);
         }
 
@@ -83,12 +82,14 @@ public class SidePanel extends JPanel {
         this.scsLabelSelectedListener = scsLabelSelectedListener;
     }
 
+    //添加 ScsIconLabel 到 map
     public void addToMap(ScsIconLabel... scsIconLabel) {
         for (ScsIconLabel iconLabel : scsIconLabel) {
             scsIconLabels.put(iconLabel.getText(), iconLabel);
         }
     }
 
+    //点击菜单组件
     public void clickScsIconLabel(ScsIconLabel scsIconLabel){
 
         //如果目标未被选中

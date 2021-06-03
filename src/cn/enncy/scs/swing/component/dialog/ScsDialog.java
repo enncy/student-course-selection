@@ -19,7 +19,6 @@ public class ScsDialog extends BaseFrame {
     public ScsDialog(String title) {
         super(400,300,400,300);
 
-
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
 

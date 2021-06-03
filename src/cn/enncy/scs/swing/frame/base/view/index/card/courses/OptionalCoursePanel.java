@@ -2,16 +2,17 @@ package cn.enncy.scs.swing.frame.base.view.index.card.courses;
 
 
 import cn.enncy.reflect.ReflectUtils;
+import cn.enncy.scs.factory.ServiceFactory;
 import cn.enncy.scs.pojo.*;
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.TimeFormat;
 import cn.enncy.scs.service.*;
-import cn.enncy.scs.swing.component.dialog.ScsAlert;
 import cn.enncy.scs.swing.component.table.ScsCourseTableCellEditor;
 import cn.enncy.scs.swing.component.table.ScsTable;
 import cn.enncy.scs.swing.frame.LoginFrame;
 import cn.enncy.scs.swing.frame.base.view.index.card.component.ServiceComponent;
 
 import javax.swing.*;
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,22 @@ public class OptionalCoursePanel extends ServiceComponent {
     public OptionalCoursePanel() {
         super(OptionalCourse.class, ServiceFactory.getService(OptionalCourseService.class));
 
+    }
+
+
+    @Override
+    public List<BaseObject> createDataList() {
+        return getBaseService().findAll();
+    }
+
+
+    @Override
+    public void initHeadPanel(JPanel headerPanel) {
+
+    }
+
+    @Override
+    public JTable createTable() {
 
         List<BaseObject> all = getBaseService().findAll();
         int fieldsLength = ReflectUtils.getObjectFields(GiveCourses.class).length + 1;
@@ -61,9 +78,12 @@ public class OptionalCoursePanel extends ServiceComponent {
                     //如果有外键注解，则获取外键的名字信息，并展示
                     if (declaredFields[j].isAnnotationPresent(ForeignInfo.class)) {
                         //显示
-                        data[i][j] = getForeignInfo(giveCourses, declaredFields[j]);
+                        data[i][j] = BaseObjectUtils.getForeignInfo(giveCourses, declaredFields[j]);
                     } else {
                         data[i][j] = declaredFields[j].get(giveCourses);
+                    }
+                    if (declaredFields[j].isAnnotationPresent(TimeFormat.class)) {
+                        data[i][j] = BaseObjectUtils.getFormatTime((Long) data[i][j]);
                     }
                 } catch (Throwable e) {
                     try {
@@ -102,7 +122,8 @@ public class OptionalCoursePanel extends ServiceComponent {
             Course course = (Course) courseService.findOneById(giveCourses.getCourse_id());
             //获取授课教师
             Teacher teacher = (Teacher) teacherService.findOneById(giveCourses.getTeacher_id());
-            CourseInfoDialog courseInfoDialog = new CourseInfoDialog(course, teacher);
+            //显示弹窗
+            new CourseInfoDialog(course, teacher);
         });
 
         //选课
@@ -118,17 +139,11 @@ public class OptionalCoursePanel extends ServiceComponent {
                 //获取授课信息
                 GiveCourses giveCourses = (GiveCourses) giveCoursesService.findOneById(give_courses_id);
 
-                //如果选则这个课程的人数，超过了指定的人数
-                if (courseSelectionService.findByGiveCoursesId(giveCourses.getId()).size() > giveCourses.getMax_num()) {
-                    ScsAlert.error("这门课已经满人！");
-                } else {
-                    // 选课
-                    CourseSelection courseSelection = new CourseSelection();
-                    courseSelection.setGive_courses_id(giveCourses.getId());
-                    courseSelection.setStudent_id(LoginFrame.getStudent().getId());
-                    int insert = courseSelectionService.insert(courseSelection);
-                    ScsAlert.autoAlert(insert, "选课失败", "你已经选过这门课了", "选课成功");
-                }
+                // 选课
+                CourseSelection courseSelection = new CourseSelection();
+                courseSelection.setGive_courses_id(giveCourses.getId());
+                courseSelection.setStudent_id(LoginFrame.getStudent().getId());
+                courseSelectionService.insert(courseSelection);
 
             }
 
@@ -147,41 +162,11 @@ public class OptionalCoursePanel extends ServiceComponent {
                 //获取授课信息
                 GiveCourses giveCourses = (GiveCourses) giveCoursesService.findOneById(give_courses_id);
                 //自动选课
-                int insert = autoCourseSelectionService.insert(new AutoCourseSelection(LoginFrame.getStudent().getId(), giveCourses.getId()));
-                ScsAlert.autoAlert(insert, "自动选课失败", "自动选课已经生效", "自动选课成功");
+                 autoCourseSelectionService.insert(new AutoCourseSelection(LoginFrame.getStudent().getId(), giveCourses.getId()));
 
             }
         });
-
-        this.setLayout(new BorderLayout());
-        this.add(scsTable.getTableHeader(), BorderLayout.NORTH);
-        this.add(scsTable, BorderLayout.CENTER);
-
-    }
-
-    /**
-     * 获取外键上的信息
-     *
-     * @param baseObject
-     * @param field
-     * @return: java.lang.Object
-     */
-    public Object getForeignInfo(BaseObject baseObject, Field field) throws IllegalAccessException, NoSuchFieldException {
-        //获取外键注解
-        ForeignInfo foreignInfo = field.getAnnotation(ForeignInfo.class);
-        //通过工厂获取外键业务
-        BaseService foreignService = ServiceFactory.getService(foreignInfo.service());
-        //获取外键id
-        int id = (int) field.get(baseObject);
-        //通过外键 id 获取外键的对象
-        BaseObject foreignObject = foreignService.findOneById(id);
-        //获取指定的外键名
-        Field declaredField = ReflectUtils.getObjectField(foreignObject.getClass(), foreignInfo.fieldName());
-        assert declaredField != null;
-        if (!declaredField.isAccessible()) {
-            declaredField.setAccessible(true);
-        }
-        return declaredField.get(foreignObject);
+        return scsTable;
     }
 
     @Override
@@ -193,4 +178,5 @@ public class OptionalCoursePanel extends ServiceComponent {
     public void updateTablePanel() {
 
     }
+
 }

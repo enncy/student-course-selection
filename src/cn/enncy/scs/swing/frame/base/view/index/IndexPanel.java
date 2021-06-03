@@ -15,7 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * //TODO
+ * //TODO   首页
  * <br/>Created in 18:21 2021/4/21
  *
  * @author: enncy
@@ -24,7 +24,7 @@ public class IndexPanel extends DropShadowPanel {
 
     public DragPanel dragPanel;
     public SidePanel sidePanel;
-
+    public InformationPanel informationPanel = new InformationPanel();
     public IndexPanel( ) {
         super(15);
         CardLayoutPanel cardLayoutPanel = CardLayoutPanel.getInstance();
@@ -51,7 +51,7 @@ public class IndexPanel extends DropShadowPanel {
         CoursePanel coursePanel = new CoursePanel();
 
         if (LoginFrame.isManager) {
-            InformationPanel informationPanel = new InformationPanel();
+
             cardLayoutPanel.add(informationPanel, "信息管理");
         }
         cardLayoutPanel.add(new ScsScrollPanel(statisticsPanel), "数据统计");

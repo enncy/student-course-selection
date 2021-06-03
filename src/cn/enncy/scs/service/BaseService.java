@@ -2,8 +2,10 @@ package cn.enncy.scs.service;
 
 
 import cn.enncy.mybatis.SqlSession;
+import cn.enncy.scs.factory.ServiceComponentFactory;
 import cn.enncy.scs.mapper.BaseMapper;
 import cn.enncy.scs.pojo.BaseObject;
+import cn.enncy.scs.swing.frame.base.view.index.card.component.ServiceComponent;
 
 import java.util.List;
 
@@ -16,29 +18,36 @@ import java.util.List;
 public class BaseService implements BaseMapper {
 
     public BaseMapper baseMapper;
+    public List<ServiceComponent> serviceComponents;
 
-    public BaseService(Class mapper){
-        baseMapper = SqlSession.getMapper(mapper);
+    public BaseService(Class<? extends  BaseMapper> baseMapper ) {
+        this.baseMapper = SqlSession.getMapper(baseMapper);
+        serviceComponents = ServiceComponentFactory.getServiceComponent(this.getClass());
+
     }
 
     @Override
     public int insert(BaseObject baseObject) {
-        BaseObject object = baseMapper.findOneById(baseObject.getId());
-        if(object!=null){
-            return -1;
-        }else {
-            return baseMapper.insert(baseObject);
-        }
+        int insert = baseMapper.insert(baseObject);
+        updateServiceComponent();
+        System.out.println("insert:"+serviceComponents);
+        return insert;
     }
 
     @Override
     public int update(BaseObject baseObject) {
-        return baseMapper.update(baseObject);
+        int update = baseMapper.update(baseObject);
+        updateServiceComponent();
+        System.out.println("update:"+serviceComponents);
+        return update;
     }
 
     @Override
     public int deleteById(int id) {
-        return baseMapper.deleteById(id);
+        int delete = baseMapper.deleteById(id);
+        updateServiceComponent();
+        System.out.println("delete:"+serviceComponents);
+        return delete;
     }
 
     @Override
@@ -48,11 +57,24 @@ public class BaseService implements BaseMapper {
 
     @Override
     public List<BaseObject> findByPages(int skip, int size) {
-        return baseMapper.findByPages(skip,size);
+        return baseMapper.findByPages(skip, size);
     }
 
     @Override
     public List<BaseObject> findAll() {
-        return  baseMapper.findAll();
+        return baseMapper.findAll();
+    }
+
+    public BaseMapper  getMapper(){
+        return baseMapper;
+    }
+
+    public void updateServiceComponent(){
+        if(serviceComponents==null) {
+            serviceComponents = ServiceComponentFactory.getServiceComponent(this.getClass());
+        }
+        for (ServiceComponent serviceComponent : serviceComponents) {
+            serviceComponent.updateDataList();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package cn.enncy.scs.pojo;
+package cn.enncy.scs.pojo.annotation;
 
 import cn.enncy.scs.service.BaseService;
 
@@ -16,6 +16,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface ForeignInfo {
     String  fieldName();
-    java.lang.Class<? extends BaseObject> pojo();
+
     java.lang.Class<? extends BaseService> service();
 }

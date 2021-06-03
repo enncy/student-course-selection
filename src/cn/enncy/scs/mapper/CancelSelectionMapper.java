@@ -17,9 +17,13 @@ import java.util.List;
  */
 
 @Mapper(tableName = ScsTableName.CANCEL_SELECTIONS,resultType = CancelSelection.class)
-public interface CancelSelectionMapper extends  BaseMapper{
+public interface CancelSelectionMapper extends  SelectionMapper{
 
     @Override
     @SQL(  "SELECT * FROM #{TABLE_NAME};" )
     List<BaseObject> findAll();
+
+    @SQL(  "SELECT * FROM #{TABLE_NAME} WHERE student_id=#{student_id} AND give_course_id=#{give_courses_id};" )
+    int cancelSelection(int student_id,int give_courses_id);
+
 }

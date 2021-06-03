@@ -3,7 +3,7 @@ package cn.enncy.scs.swing.frame.base.view.index.card.statistics;
 
 import cn.enncy.scs.pojo.BaseObject;
 import cn.enncy.scs.pojo.Setting;
-import cn.enncy.scs.service.ServiceFactory;
+import cn.enncy.scs.factory.ServiceFactory;
 import cn.enncy.scs.service.SettingService;
 import cn.enncy.scs.swing.component.panel.CardPanel;
 
@@ -26,6 +26,7 @@ public class SettingPanel extends CardPanel {
 
         SettingService settingService = ServiceFactory.getService(SettingService.class);
 
+        //遍历设置
         List<BaseObject> all = settingService.findAll();
         Vector<String> vector = new Vector<>();
         JList<String> objectJList = new JList<>();

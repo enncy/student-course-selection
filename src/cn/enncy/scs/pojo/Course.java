@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.Info;
+
 /**
  * //TODO
  * <br/>Created in 21:28 2021/4/18

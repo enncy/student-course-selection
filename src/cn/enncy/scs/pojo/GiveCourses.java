@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
 import cn.enncy.scs.service.CourseService;
 import cn.enncy.scs.service.TeacherService;
 
@@ -10,14 +12,14 @@ import cn.enncy.scs.service.TeacherService;
  *
  * @author: enncy
  */
-public class GiveCourses  extends BaseObject{
+public class GiveCourses  extends BaseObject {
 
     @Info("课程id")
-    @ForeignInfo(pojo = Course.class ,fieldName = "id" ,service = CourseService.class)
+    @ForeignInfo(fieldName = "name"  ,service = CourseService.class)
     private int course_id;
 
     @Info("教师id")
-    @ForeignInfo(pojo = Teacher.class ,fieldName = "id",service = TeacherService.class)
+    @ForeignInfo(fieldName = "name" ,service = TeacherService.class)
     private int teacher_id;
 
 
@@ -67,4 +69,5 @@ public class GiveCourses  extends BaseObject{
                 ", max_num=" + max_num +
                 '}';
     }
+
 }

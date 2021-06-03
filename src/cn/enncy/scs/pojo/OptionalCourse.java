@@ -1,6 +1,8 @@
 package cn.enncy.scs.pojo;
 
 
+import cn.enncy.scs.pojo.annotation.ForeignInfo;
+import cn.enncy.scs.pojo.annotation.Info;
 import cn.enncy.scs.service.GiveCoursesService;
 
 /**
@@ -9,10 +11,10 @@ import cn.enncy.scs.service.GiveCoursesService;
  *
  * @author: enncy
  */
-public class OptionalCourse  extends BaseObject {
+public class OptionalCourse  extends BaseObject{
 
     @Info("授课id")
-    @ForeignInfo(pojo = GiveCourses.class,fieldName = "id" ,service = GiveCoursesService.class)
+    @ForeignInfo(fieldName = "course_id,teacher_id"  ,service = GiveCoursesService.class)
     private int give_courses_id;
 
     public OptionalCourse() { }
@@ -38,4 +40,5 @@ public class OptionalCourse  extends BaseObject {
                 ", give_courses_id=" + give_courses_id +
                 '}';
     }
+
 }

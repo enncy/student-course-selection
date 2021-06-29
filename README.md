@@ -1,20 +1,7 @@
 # student-course-selection
 scs - student-course-selection 学生选课系统   java + jdbc + swing
 
-
-
-## 界面设计
-
-![image-20210421182003737](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210421182003737.png)
-
-## 核心流程图
-
-MVC 架构
-
-![img.png](E:\github\enncy\student-course-selection\src\resource\img.png)
-
-
-
+ 
 ## 以下是程序设计报告内容
 
 **目录**
@@ -253,7 +240,7 @@ MVC 架构
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps1.jpg) 
+![img](img/README/wps1.jpg) 
 
 #### **3.2.1** ***业务层***
 
@@ -275,49 +262,49 @@ MVC 架构
 
 （一）管理员表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps2.jpg) 
+![img](img/README/wps2.jpg) 
 
 （二）学生表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps3.jpg) 
+![img](img/README/wps3.jpg) 
 
 （三）教师表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps4.jpg) 
+![img](img/README/wps4.jpg) 
 
 （四）专业信息表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps5.jpg) 
+![img](img/README/wps5.jpg) 
 
 （五）课程信息表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps6.jpg) 
+![img](img/README/wps6.jpg) 
 
 （六）班级信息表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps7.jpg) 
+![img](img/README/wps7.jpg) 
 
 （七）可选课程信息表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps8.jpg) 
+![img](img/README/wps8.jpg) 
 
 （八）系统配置表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps9.jpg) 
+![img](img/README/wps9.jpg) 
 
 （九）学生选课表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps10.jpg) 
+![img](img/README/wps10.jpg) 
 
 （十）自动选课表
 
-![img](E:\github\enncy\student-course-selection\img\README\wps11.jpg) 
+![img](img/README/wps11.jpg) 
 
 （十一）选课撤销表
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps12.jpg)	
+![img](img/README/wps12.jpg)	
 
  
 
@@ -331,7 +318,7 @@ MVC 架构
 
 ### **3.4** ***界面设计***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps13.jpg) 
+![img](img/README/wps13.jpg) 
 
 ### **3.5** ***安全保密设计***
 
@@ -357,7 +344,7 @@ MVC 架构
 
   程序流程图又称为程序框图，它是历史悠久使用最广泛的描述软件设计的方法。它可将整个程序的总体流程清楚明白的显示出来。如图 4.2.1 系统总流程图结构。 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps14.png) 
+![img](img/README/wps14.png) 
 
  
 
@@ -373,7 +360,7 @@ MVC 架构
 
 #### **4.3.1** ***项目结构***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps15.jpg) 
+![img](img/README/wps15.jpg) 
 
  
 
@@ -383,93 +370,85 @@ MVC 架构
 
 #### **4.3.2** ***项目结构解析***
 
-
-
-
-
+```
  |-- cn
 
-  |  |-- enncy			***cn.enncy 包***
+  |  |-- enncy		cn.enncy 包
 
-  |    |-- io		***I/O 工具类包***
+  |    |-- io		I/O 工具类包
 
-  |    |-- mybatis	***手写实现的模拟 Mybatis 框架包***
+  |    |-- mybatis	手写实现的模拟 Mybatis 框架包
 
-  |    |-- reflect		***java 反射工具类包***
+  |    |-- reflect	java 反射工具类包
 
-  |    |-- scanner	***java 包扫描器***
+  |    |-- scanner	java 包扫描器
 
-  |    |-- scs		***学生管理系统核心源码***
+  |    |-- scs		学生管理系统核心源码
 
-  |      |-- Application.java		***Main 类***
+  |      |-- Application.java	Main 类
 
-  |      |-- exception			***异常包***
+  |      |-- exception			异常包
 
-  |      |-- factory			***工厂模式包***
+  |      |-- factory			工厂模式包
 
-  |      |-- mapper			***数据层包***
+  |      |-- mapper				数据层包
 
-  |      |-- pojo				***java pojo 对象包***
+  |      |-- pojo				java pojo 对象包
 
-  |      |-- service			***业务层包***
+  |      |-- service			业务层包
 
-  |      |-- swing				***swing 组件包***
+  |      |-- swing				swing 组件包
 
-  |      |  |-- component			***通用组件***
+  |      |  |-- component			通用组件
 
-  |      |  |  |-- dialog				***弹窗***
+  |      |  |  |-- dialog				弹窗
 
-  |      |  |  |-- frame				***通用窗体***
+  |      |  |  |-- frame				通用窗体
 
-  |      |  |  |-- panel				***容器***
+  |      |  |  |-- panel				容器
 
-  |      |  |  |-- scroll				***滚动组件***
+  |      |  |  |-- scroll				滚动组件
 
-  |      |  |  |-- table				***表格组件***
+  |      |  |  |-- table				表格组件
 
-  |      |  |  |-- title				***自定义标题栏窗体***
+  |      |  |  |-- title				自定义标题栏窗体
 
-  |      |  |-- constant			***常量***
+  |      |  |-- constant			常量
 
-  |      |  |-- frame				***窗体***
+  |      |  |-- frame				窗体
 
   |      |  |  |-- base			
 
-  |      |  |    |-- view		***视图***
+  |      |  |    |-- view		视图
 
-  |      |  |      |-- index		***首页***
+  |      |  |      |-- index		首页
 
-  |      |  |        |-- card				***卡片布局组件***
+  |      |  |        |-- card				卡片布局组件
 
-  |      |  |          |-- component			***通用组件***
+  |      |  |          |-- component			通用组件
 
-  |      |  |          |  |-- dialog				***自定义弹窗***
+  |      |  |          |  |-- dialog				自定义弹窗
 
-  |      |  |          |-- courses			***课程卡片***
+  |      |  |          |-- courses			课程卡片
 
-  |      |  |          |-- information			***信息卡片***
+  |      |  |          |-- information			信息卡片
 
-  |      |  |          |-- personal			***个人信息卡片***
+  |      |  |          |-- personal			个人信息卡片
 
-  |      |  |          |-- statistics			***统计卡片***
+  |      |  |          |-- statistics			统计卡片
 
-  |      |  |-- utils		***组件工具类***
+  |      |  |-- utils		组件工具类
 
-  |      |-- utils		***工具类***
+  |      |-- utils		工具类
 
-  |-- resource		***资源文件***
+  |-- resource		资源文件
 
-​    |-- icon			***图标***
+  |-- icon			图标
 
-​    |-- sql			***mysql 脚本文件***
+  |-- sql			mysql 脚本文件
+```
 
- 
 
- 
-
- 
-
- 
 
 #### **4.3.3** ***数据表初始化******系统***
 
@@ -493,77 +472,41 @@ MVC 架构
 
  
 
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
 ## **第五章** **主要功能模块代码**
 
  
 
 ### **5.1** ***数据表初始化系统***
 
-**（一）*****扫描 cn.enncy.scs.mapper 包***
+**（一）** **扫描 cn.enncy.scs.mapper 包**
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps16.jpg) 
+![img](img/README/wps16.jpg) 
 
  
 
-**（二）*****通过包扫描获取的类，进行注解分析***
+**（二）** **通过包扫描获取的类，进行注解分析**
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps17.jpg) 
+![img](img/README/wps17.jpg) 
 
  
 
-**（三）*****通过注解获取相应的 sql 文件名，并获取文件内容***
+**（三）** **通过注解获取相应的 sql 文件名，并获取文件内容**
 
-![img](E:\github\enncy\student-course-selection\img\README\wps18.jpg) 
-
- 
-
-**（四）** ***读取内容，建表***
-
-![img](E:\github\enncy\student-course-selection\img\README\wps19.jpg) 
+![img](img/README/wps18.jpg) 
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps20.jpg) 
+**（四）** **读取内容，建表**
+
+![img](img/README/wps19.jpg) 
+
+ 
+
+![img](img/README/wps20.jpg) 
 
  
 
@@ -571,89 +514,68 @@ MVC 架构
 
 ### **5.2** ***M******VC 架构实现***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps21.jpg) 
+![img](img/README/wps21.jpg) 
 
  
 
-（一）使用***S******erviceComponentFactory******.java 组件******静态工厂***模式，通过静态代码块执行 ***initServiceComponent***() 方法， 判断组件是否在 Map 集合中存在，如果存在，则获取并返回组件，如果不存在，***则通过反射获取组件的构造器，并且传入相应的业务参数，最后实例化组件，并且保存到 Map 集合中***。![img](E:\github\enncy\student-course-selection\img\README\wps22.jpg)
+（一）使用***S******erviceComponentFactory******.java 组件******静态工厂***模式，通过静态代码块执行 ***initServiceComponent***() 方法， 判断组件是否在 Map 集合中存在，如果存在，则获取并返回组件，如果不存在，***则通过反射获取组件的构造器，并且传入相应的业务参数，最后实例化组件，并且保存到 Map 集合中***。![img](img/README/wps22.jpg)
 
-![img](E:\github\enncy\student-course-selection\img\README\wps23.jpg) 
+![img](img/README/wps23.jpg) 
 
  
 
 （二） 当业务组件在 ***initServiceComponent******()*** 方法中被实例化的时候，会被注入一个 ***BaseService***参数，而这个参数会从 ***ServiceFactory.java*** 静态业务工厂中实例化并获取。 当业务实例化的时候，会自动被 ***Sqlsession.getMapper(BaseMapper) 方法中被动态代理，***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps24.jpg) 
+![img](img/README/wps24.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps25.jpg) 
-
- 
+![img](img/README/wps25.jpg) 
 
  
 
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
 
 （三） 当子类调用 ***BaseService***中的方法的时候， ***动态代理***会读取并执行方法上的 ***@SQL*** 注解，并执行相应的 sql 语句，通过反射获取方法上的***返回值，***确定返回值的类型后，***通过一系列的方法将 sql 执行结果转换成 返回值的类属性***， 最后通过反射获取到返回值的构造器，通过构造器实例化，***并将实例化结果 赋值到 动态代理的返回值***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps26.jpg) 
+![img](img/README/wps26.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps27.jpg) 
+![img](img/README/wps27.jpg) 
 
  
 
 （四）最后， ***BaseService***会在初始化的时候，通过***S******erviceComponentFactory******工厂，***获取相应的业务组件。然后将代理返回的结果，返回给***MainFrame***窗体中的***ServiceComponent*** 子组件，并且通过每个子组件的 updatexxx 方法，通知子组件进行视图的更新。
 
-![img](E:\github\enncy\student-course-selection\img\README\wps28.jpg) 
+![img](img/README/wps28.jpg) 
 
 ### **5.3** ***登录界面代码设计***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps29.jpg) 
+![img](img/README/wps29.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps30.jpg) 
+![img](img/README/wps30.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps31.jpg) 
+![img](img/README/wps31.jpg) 
 
 ### **5.4** ***管理员首页界面代码设计***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps32.jpg) 
+![img](img/README/wps32.jpg) 
 
  
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps33.jpg) 
+![img](img/README/wps33.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps34.jpg) 
+![img](img/README/wps34.jpg) 
 
 ### **5.5** ***专业信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps35.jpg) 
+![img](img/README/wps35.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps36.jpg) 
+![img](img/README/wps36.jpg) 
 
 ### **5.6** ***班级信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps37.jpg) 
+![img](img/README/wps37.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps38.jpg) 
+![img](img/README/wps38.jpg) 
 
 ### **5.7** ***学生信息管理***
 
@@ -661,17 +583,17 @@ MVC 架构
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps39.jpg) 
+![img](img/README/wps39.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps40.jpg) 
+![img](img/README/wps40.jpg) 
 
  
 
-![img](E:\github\enncy\student-course-selection\img\README\wps41.jpg) 
+![img](img/README/wps41.jpg) 
 
 
 
- ![img](E:\github\enncy\student-course-selection\img\README\wps42.jpg)
+ ![img](img/README/wps42.jpg)
 
 
 
@@ -679,75 +601,53 @@ MVC 架构
 
 ### **5.8** ***教师信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps43.jpg) 
+![img](img/README/wps43.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps44.jpg) 
+![img](img/README/wps44.jpg) 
 
 ### **5.9** ***课程信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps45.jpg) 
+![img](img/README/wps45.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps46.jpg) 
+![img](img/README/wps46.jpg) 
 
  
 
 ### **5.10** ***授课信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps47.jpg) 
+![img](img/README/wps47.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps48.jpg) 
+![img](img/README/wps48.jpg) 
 
  
 
 ### **5.11** ***可选课程信息管理***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps49.jpg) 
+![img](img/README/wps49.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps50.jpg) 
+![img](img/README/wps50.jpg) 
 
 ### **5.12** ***选课信息管理***
 
 （一）学生界面
 
-![img](E:\github\enncy\student-course-selection\img\README\wps51.jpg) 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
+![img](img/README/wps51.jpg) 
 
  
 
 （二）选课结果
 
-![img](E:\github\enncy\student-course-selection\img\README\wps52.jpg) 
+![img](img/README/wps52.jpg) 
 
  
 
 （三）撤销选课
 
-![img](E:\github\enncy\student-course-selection\img\README\wps53.jpg) 
+![img](img/README/wps53.jpg) 
 
 （四）选课详情信息
 
-![img](E:\github\enncy\student-course-selection\img\README\wps54.jpg) 
+![img](img/README/wps54.jpg) 
 
 ### **5.13** ***学生选课辑设计***
 
@@ -823,7 +723,7 @@ MVC 架构
 
    ***例如专业类: Major.java***
 
-   ![img](E:\github\enncy\student-course-selection\img\README\wps55.jpg) 
+   ![img](img/README/wps55.jpg) 
 
    专业类有 name 和 description 2个属性，而这2个属性也对应着数据库的字段名，每个 POJO 类都是如此。
 
@@ -835,21 +735,21 @@ MVC 架构
 
    所以，最终的解析结果是 :  
 
-   INSERT IGNORE INTO majors(name,description) value (“计算机科学与技术”,”计算机科学与技术专业”);![img](E:\github\enncy\student-course-selection\img\README\wps56.jpg) 
+   INSERT IGNORE INTO majors(name,description) value (“计算机科学与技术”,”计算机科学与技术专业”);![img](img/README/wps56.jpg) 
 
    每个Service 类都是如此，所以创建专业，创建班级，创建老师，创建课程，创建学生，等等操作，都可以得代码的复用，以及解耦
 
 8. 选课开始
 
-   通过初始化类，我们可以在数据库中初始化选课开始时间![img](E:\github\enncy\student-course-selection\img\README\wps57.jpg) 
+   通过初始化类，我们可以在数据库中初始化选课开始时间![img](img/README/wps57.jpg) 
 
-   如果当前是选课时间，则管理员可以设置选课公告![img](E:\github\enncy\student-course-selection\img\README\wps58.jpg) ![img](E:\github\enncy\student-course-selection\img\README\wps59.jpg) 
+   如果当前是选课时间，则管理员可以设置选课公告![img](img/README/wps58.jpg) ![img](img/README/wps59.jpg) 
 
    当学生选课时，程序会判断当前时间是否在选课时间
 
-   ![img](E:\github\enncy\student-course-selection\img\README\wps60.jpg) 
+   ![img](img/README/wps60.jpg) 
 
-   学生查看可选课程通过 OptioncalCourseMapper 我们查询可以获取可选的课程，也就是可选的授课。![img](E:\github\enncy\student-course-selection\img\README\wps61.jpg) 
+   学生查看可选课程通过 OptioncalCourseMapper 我们查询可以获取可选的课程，也就是可选的授课。![img](img/README/wps61.jpg) 
 
 9. 学生查看可选课程信息
 
@@ -861,9 +761,9 @@ MVC 架构
 
 13. 创建学生选课信息
 
-    通过 SelectionService 我们可以在学生插入课程的时候，加入一些条件，例如![img](E:\github\enncy\student-course-selection\img\README\wps62.jpg) ![img](E:\github\enncy\student-course-selection\img\README\wps63.jpg) 
+    通过 SelectionService 我们可以在学生插入课程的时候，加入一些条件，例如![img](img/README/wps62.jpg) ![img](img/README/wps63.jpg) 
 
-    选课业务中调用以上方法，系统自动判断是否在选课时间，是否开启自动选课，学生是否成功选课，以及选课成功后添加信息。![img](E:\github\enncy\student-course-selection\img\README\wps64.jpg)	 
+    选课业务中调用以上方法，系统自动判断是否在选课时间，是否开启自动选课，学生是否成功选课，以及选课成功后添加信息。![img](img/README/wps64.jpg)	 
 
 14. 学生查看选课结果
 
@@ -877,15 +777,15 @@ MVC 架构
 
 ***BaseMapper.java***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps65.jpg) 
+![img](img/README/wps65.jpg) 
 
 
 
 ***BaseService.java***
 
-![img](E:\github\enncy\student-course-selection\img\README\wps66.jpg) 
+![img](img/README/wps66.jpg) 
 
-![img](E:\github\enncy\student-course-selection\img\README\wps67.jpg) 
+![img](img/README/wps67.jpg) 
 
  
 
@@ -933,23 +833,15 @@ Java 的反射机制是动态程序的关键因素，由此应运而生了许许
 
  
 
- 
-
- 
-
- 
-
- 
-
 **参考文献**
 
 [1] (美)Bruce Eckel.Java编程思想[M].机械工业出版社,2007
 
-[2] 龚炳江;文志诚;高建国.Java程序设计[M].[人民邮电出版社](https://kns.cnki.net/KNS8/Navi?DBCode=WBFD&BaseID=人民邮电出版社),2016
+[2] 龚炳江;文志诚;高建国.Java程序设计[M].人民邮电出版社,2016
 
 [3] 王昊天,于航,商贝宁.Java反射机制概述[J].电子世界,2020
 
-[4] 张丹丹.[浅析Java swing组件窗体设计](https://kns.cnki.net/KNS8/Detail?sfield=fn&QueryID=0&CurRec=8&recid=&FileName=DNZS202021068&DbName=CJFDLAST2020&DbCode=CJFD&yx=&pr=&URLID=)[J].[电脑知识与技术](https://kns.cnki.net/KNS8/Navi?DBCode=CJFD&BaseID=DNZS),2020
+[4] 张丹丹.浅析Java swing组件窗体设计[J].电脑知识与技术,2020
 
 [5] 兰旭辉,熊家军,邓刚.基于MySQL的应用程序设计[J].计算机工程与设计,2004
 

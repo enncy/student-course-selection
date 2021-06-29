@@ -1,7 +1,20 @@
 # student-course-selection
-scs - student-course-selection 学生选课系统   java + jdbc + swing
+学生选课系统 scs - student-course-selection    java + jdbc + swing
 
- 
+此项目均由本人开发,，如有雷同，纯属巧合
+
+****
+
+此项目涉及如下知识点，如未学过，请谨慎参考借鉴
+
+- javaSE
+- java swing
+- java jdbc
+- java 设计模式
+- java 反射机制，java 注解开发,  java 包扫描, mybatis 实现原理
+- mysql 8.0
+
+
 ## 以下是程序设计报告内容
 
 **目录**

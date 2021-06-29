@@ -13,11 +13,8 @@ import java.lang.reflect.Proxy;
  * @author: enncy
  */
 public class SqlSession {
-
-
     public static <T> T getMapper(Class target) {
         return (T) Proxy.newProxyInstance(target.getClassLoader(), new Class[]{target}, new SqlProxyInvocationHandler(target));
-
     }
 
 }

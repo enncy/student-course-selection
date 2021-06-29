@@ -61,7 +61,9 @@ public class MybatisApplication {
                     if(e instanceof SQLSyntaxErrorException){
                         try {
                             //建表
-                            String fileContent = FileContentReader.getFileContent(Objects.requireNonNull(SqlSession.class.getClassLoader().getResource("sql/"+tableName + ".sql")).toURI());
+                            String fileContent = FileContentReader.getFileContent(
+                                    Objects.requireNonNull(
+                                            SqlSession.class.getClassLoader().getResource("sql/"+tableName + ".sql")).toURI());
                             DBUtils.execute(fileContent);
                             logger.info("[mybatis] : 创建新表 "+tableName);
                         } catch (IOException | SQLException e1) {

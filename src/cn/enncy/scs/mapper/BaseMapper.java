@@ -42,6 +42,4 @@ public interface BaseMapper{
     @SQL("UPDATE IGNORE #{TABLE_NAME} SET #{"+SET_ARRAY+"} WHERE id=#{id};")
     int update(@Body() BaseObject baseObject);
 
-
-
 }

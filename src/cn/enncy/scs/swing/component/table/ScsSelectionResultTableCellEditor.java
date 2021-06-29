@@ -19,6 +19,16 @@ public class ScsSelectionResultTableCellEditor extends TableCellEditorImpl {
     //撤销选课按钮
     private JButton cancelSelectionButton;
 
+
+
+    public JButton getCancelSelectionButton() {
+        return cancelSelectionButton;
+    }
+    public JButton getShowInfoButton() {
+        return showInfoButton;
+    }
+
+
     @Override
     public void buildComponent(JPanel operationPanel) {
 
@@ -33,13 +43,5 @@ public class ScsSelectionResultTableCellEditor extends TableCellEditorImpl {
         operationPanel.add(showInfoButton);
         operationPanel.add(cancelSelectionButton);
     }
-
-    public JButton getCancelSelectionButton() {
-        return cancelSelectionButton;
-    }
-    public JButton getShowInfoButton() {
-        return showInfoButton;
-    }
-
 
 }
